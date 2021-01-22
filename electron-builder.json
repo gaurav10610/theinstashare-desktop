@@ -22,7 +22,7 @@
   ],
   "win": {
     "icon": "dist/assets/icons",
-    "asar": false,
+    "asar": true,
     "target": [
       "portable"
     ]

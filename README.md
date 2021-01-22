@@ -16,10 +16,10 @@ Currently, it supports the following features -
 - Access Remote Machine
 - Share Remote Access (Share keyboard and mouse control with a remote user)
 
-NOTE - For web version of the app please follow following bitbucket repo - 
+NOTE - For web version of the app please follow following github repo - 
 
 ```
-https://bitbucket.org/ironman0693/instashare/src/develop/
+https://github.com/gaurav10610/theinstashare-web
 ```
 
 ### Minor Features - 
@@ -35,6 +35,13 @@ https://bitbucket.org/ironman0693/instashare/src/develop/
 - All the newly created webrtc connections will get closed as soon as user choose to stop media streaming.
 - Text messages exchange, file transfer and streaming of remote access events(relaying of mouse and keyboard events) is powered by webrtc data channels.
 - Idle webrtc datachannels will automatically get cleaned up along with webrtc connections by a recurring job if there is no exchange of information via datachannel from certain configured time.
+
+### Steps to build the app - 
+```
+npm install
+npm run electron:build
+#packaged app will be placed in release folder
+```
 
 ### Screenshots -
 
