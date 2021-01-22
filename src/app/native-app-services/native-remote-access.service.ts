@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { LoggerUtil } from '../services/logging/LoggerUtil';
 import { NativeElectronService } from '../core/services/electron/electron.service';
 import { AppConstants } from '../services/AppConstants';
-import { UserContextService } from '../services/context/user.context.service';
+import {TalkWindowContextService} from '../services/context/talk-window-context.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class NativeRemoteAccessService {
 
   constructor(
     private nativeElectronService: NativeElectronService,
-    private userContextService: UserContextService) { }
+    public talkWindowContextService: TalkWindowContextService) { }
 
   /**
    * this will simulate appropriate native mouse or keyboard event as per the received 
@@ -105,7 +105,7 @@ export class NativeRemoteAccessService {
      */
     const key = this.nativeElectronService.vkey[86].toLowerCase();
     LoggerUtil.log('this is the pasted data: ' + this.nativeElectronService.clipboard.readText());
-    switch (this.userContextService.remoteAccessContext['localOS']) {
+    switch (this.talkWindowContextService.remoteAccessContext['localOS']) {
       case 'win':
         this.nativeElectronService.robotjs.keyTap(key, ['control']);
         break;
@@ -131,7 +131,7 @@ export class NativeRemoteAccessService {
      * @TODO check if this is really required
      */
     const key = this.nativeElectronService.vkey[65].toLowerCase();
-    switch (this.userContextService.remoteAccessContext['localOS']) {
+    switch (this.talkWindowContextService.remoteAccessContext['localOS']) {
       case 'win':
         this.nativeElectronService.robotjs.keyTap(key, ['control']);
         break;
@@ -187,7 +187,7 @@ export class NativeRemoteAccessService {
       let key = this.nativeElectronService.vkey[keyboardEventMessage.keyCode].toLowerCase();
 
       if (this.capsLockState !== keyboardEventMessage.capslock) {
-        if (this.userContextService.remoteAccessContext['localOS'] === 'win') {
+        if (this.talkWindowContextService.remoteAccessContext['localOS'] === 'win') {
           this.nativeElectronService.robotjs.keyTap('capslock');
           this.capsLockState = keyboardEventMessage.capslock;
         }
@@ -210,8 +210,8 @@ export class NativeRemoteAccessService {
           /**
            * ignore 'copy', 'paste' and 'selection' event
            */
-          if ((this.userContextService.remoteAccessContext['localOS'] === 'win' ||
-            this.userContextService.remoteAccessContext['localOS'] === 'mac') &&
+          if ((this.talkWindowContextService.remoteAccessContext['localOS'] === 'win' ||
+            this.talkWindowContextService.remoteAccessContext['localOS'] === 'mac') &&
             (keyboardEventMessage.control || keyboardEventMessage.meta) &&
             (keyboardEventMessage.keyCode == 86 || keyboardEventMessage.keyCode == 67 || keyboardEventMessage.keyCode == 65)) {
             return;
