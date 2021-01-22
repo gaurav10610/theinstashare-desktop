@@ -4,6 +4,10 @@ import { NativeElectronService } from '../core/services/electron/electron.servic
 import { AppConstants } from '../services/AppConstants';
 import {TalkWindowContextService} from '../services/context/talk-window-context.service';
 
+/**
+ * 
+ * This class contains all the native events handlers
+ */
 @Injectable({
   providedIn: 'root'
 })
