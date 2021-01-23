@@ -55,8 +55,11 @@ npm run electron:build
 
 ![](./markdown-images/text-screen.png)
 
+### Preview - 
+```https://youtu.be/zVNrG0JuXz4```
+
 ### Credits - 
-App bootstrapped using awesome [angular-electron](https://github.com/maximegris/angular-electron) project
+- App bootstrapped using awesome [angular-electron](https://github.com/maximegris/angular-electron) project
 
 ### Author - 
 Gaurav Kumar Yadav
