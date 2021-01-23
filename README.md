@@ -55,6 +55,9 @@ npm run electron:build
 
 ![](./markdown-images/text-screen.png)
 
+### Preview - 
+![](./markdown-images/app-video-final.mp4)
+
 ### Credits - 
 - App bootstrapped using awesome [angular-electron](https://github.com/maximegris/angular-electron) project
 
