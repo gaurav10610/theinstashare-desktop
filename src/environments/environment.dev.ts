@@ -1,4 +1,4 @@
-// gaurav kumar yadav
+// gaurav
 
 export const environment = {
   is_native_app: true,
