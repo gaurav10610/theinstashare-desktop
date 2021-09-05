@@ -19,6 +19,9 @@ import { NgxElectronModule } from 'ngx-electron';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AppDashboardComponent } from './app-dashboard/app-dashboard.component';
+import { GroupChatLoginComponent } from './group-chat-login/group-chat-login.component';
+import { GroupChatWindowComponent } from './group-chat-window/group-chat-window.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -26,7 +29,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 }
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, TalkWindowComponent],
+  declarations: [AppComponent, LoginComponent, TalkWindowComponent,
+    AppDashboardComponent, GroupChatLoginComponent, GroupChatWindowComponent],
   imports: [
     MatGridListModule,
     MatSnackBarModule,
