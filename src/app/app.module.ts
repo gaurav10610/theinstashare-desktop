@@ -16,6 +16,9 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { TalkWindowComponent } from './talk-window/talk-window.component';
 import { NgxElectronModule } from 'ngx-electron';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -25,6 +28,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 @NgModule({
   declarations: [AppComponent, LoginComponent, TalkWindowComponent],
   imports: [
+    MatGridListModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule,
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
