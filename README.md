@@ -6,7 +6,6 @@ theinstashare-desktop is a cross platform desktop app. This is the desktop versi
 ### Try web version at - https://theinstashare.com/
 
 Currently, it supports the following features -
-
 ### Major Features - 
 - Text Chat
 - Audio Chat
@@ -15,11 +14,12 @@ Currently, it supports the following features -
 - File Sharing
 - Access Remote Machine
 - Share Remote Access (Share keyboard and mouse control with a remote user)
+- Share System Sound
 
-NOTE - For web version of the app please follow following github repo - 
+NOTE - For web version of the app please follow following bitbucket repo - 
 
 ```
-https://github.com/gaurav10610/theinstashare-web
+https://bitbucket.org/ironman0693/instashare/src/develop/
 ```
 
 ### Minor Features - 
@@ -43,6 +43,19 @@ npm run electron:build
 #packaged app will be placed in release folder
 ```
 
+### Features working status - 
+
+| Features      | Windows       | Mac |
+|:------------- |:-------------:|:-----:|
+| Text Chat | Yes | Yes |
+| Audio Chat | Yes | Yes |
+| Video Chat | Yes | Yes |
+| Screen Sharing | Yes | Yes |
+| File Transfer | Yes | Yes |
+| Access Remote Machine | Yes | Yes |
+| Share Remote Access | Yes | Yes |
+| Share System Sound | Yes | No |
+
 ### Screenshots -
 
 ![](./markdown-images/login.png)
@@ -55,11 +68,8 @@ npm run electron:build
 
 ![](./markdown-images/text-screen.png)
 
-### Preview - 
-```https://youtu.be/zVNrG0JuXz4```
-
 ### Credits - 
-- App bootstrapped using awesome [angular-electron](https://github.com/maximegris/angular-electron) project
+App bootstrapped using awesome [angular-electron](https://github.com/maximegris/angular-electron) project
 
 ### Author - 
 Gaurav Kumar Yadav
