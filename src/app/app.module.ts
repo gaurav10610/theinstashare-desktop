@@ -22,6 +22,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AppDashboardComponent } from './app-dashboard/app-dashboard.component';
 import { GroupChatLoginComponent } from './group-chat-login/group-chat-login.component';
 import { GroupChatWindowComponent } from './group-chat-window/group-chat-window.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatButtonModule } from '@angular/material/button';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -35,6 +38,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MatGridListModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
