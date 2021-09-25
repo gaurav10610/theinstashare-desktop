@@ -25,6 +25,7 @@ import { GroupChatWindowComponent } from './group-chat-window/group-chat-window.
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -41,6 +42,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatToolbarModule,
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
