@@ -1,5 +1,4 @@
-// gaurav
-
+// environment file
 export const environment = {
   is_native_app: true,
   production: false,
