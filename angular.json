@@ -20,7 +20,7 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/purple-green.css",
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss",
               "src/assets/css/style.scss"
             ],
@@ -112,7 +112,7 @@
             "karmaConfig": "src/karma.conf.js",
             "scripts": [],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/purple-green.css",
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss",
               "src/assets/css/style.scss"
             ],
@@ -152,7 +152,7 @@
       }
     }
   },
-  "defaultProject": "angular-electron",
+  "defaultProject": "theinstashare-desktop",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
