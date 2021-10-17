@@ -54,13 +54,23 @@ npm run electron:build
 
 ![](./markdown-images/login.png)
 
-![](./markdown-images/screen.png) 
- 
-![](./markdown-images/screen-sharing.jpg)
+![](./markdown-images/app-dashboard.png)
 
-![](./markdown-images/video.jpg)
+![](./markdown-images/login-popup.png)
 
 ![](./markdown-images/text-screen.png)
+
+![](./markdown-images/calling-screen.png)
+
+![](./markdown-images/mobile-video-options.png)
+
+![](./markdown-images/mobile-video.png)
+
+![](./markdown-images/screen-sharing.png)
+
+![](./markdown-images/screen.png)
+
+![](./markdown-images/video.jpg)
 
 ### Credits - 
 App bootstrapped using awesome [angular-electron](https://github.com/maximegris/angular-electron) project
