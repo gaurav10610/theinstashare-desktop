@@ -38,6 +38,7 @@ import { RequestProcessingDialogComponent } from './request-processing-dialog/re
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppLoginDialogComponent } from './app-login-dialog/app-login-dialog.component';
 import { ProgressDialogComponent } from './progress-dialog/progress-dialog.component';
+import { FileTransferWindowComponent } from './file-transfer-window/file-transfer-window.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -48,7 +49,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   declarations: [AppComponent, LoginComponent,AppLoginDialogComponent, TalkWindowComponent,
     AppDashboardComponent, GroupChatWindowComponent, GroupLoginDialogComponent, MediaViewerDialogComponent,
     IconsDialogComponent,
-    RequestProcessingDialogComponent, ProgressDialogComponent],
+    RequestProcessingDialogComponent, ProgressDialogComponent, FileTransferWindowComponent],
   imports: [
     MatSnackBarModule,
     MatProgressSpinnerModule,

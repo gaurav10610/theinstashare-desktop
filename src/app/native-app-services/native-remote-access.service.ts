@@ -64,7 +64,7 @@ export class NativeRemoteAccessService {
         break;
 
       default:
-        LoggerUtil.log('received native event is unknown');
+        LoggerUtil.logAny('received native event is unknown');
     }
   }
 
@@ -108,7 +108,7 @@ export class NativeRemoteAccessService {
      * @TODO check if this is really required
      */
     const key = this.nativeElectronService.vkey[86].toLowerCase();
-    LoggerUtil.log('this is the pasted data: ' + this.nativeElectronService.clipboard.readText());
+    LoggerUtil.logAny('this is the pasted data: ' + this.nativeElectronService.clipboard.readText());
     switch (this.talkWindowContextService.remoteAccessContext['localOS']) {
       case 'win':
         this.nativeElectronService.robotjs.keyTap(key, ['control']);
@@ -226,9 +226,9 @@ export class NativeRemoteAccessService {
           if (keyboardEventMessage.control) this.nativeElectronService.robotjs.keyToggle('control', 'up');
           if (keyboardEventMessage.alt) this.nativeElectronService.robotjs.keyToggle('alt', 'up');
           if (keyboardEventMessage.meta) this.nativeElectronService.robotjs.keyToggle('command', 'up');
-          LoggerUtil.log('tapped key: ' + key + ' with modifiers: ' + modifiers);
+          LoggerUtil.logAny('tapped key: ' + key + ' with modifiers: ' + modifiers);
         } else {
-          LoggerUtil.log('tapped key ' + key);
+          LoggerUtil.logAny('tapped key ' + key);
           this.nativeElectronService.robotjs.keyTap(key);
         }
       } else {
@@ -274,12 +274,12 @@ export class NativeRemoteAccessService {
             this.nativeElectronService.robotjs.keyTap('escape');
             break;
           default:
-            LoggerUtil.log('not able to tap key: ' + key);
+            LoggerUtil.logAny('not able to tap key: ' + key);
         }
       }
     } catch (error) {
-      LoggerUtil.log('error while tapping key');
-      LoggerUtil.log(error);
+      LoggerUtil.logAny('error while tapping key');
+      LoggerUtil.logAny(error);
     }
   }
 }
