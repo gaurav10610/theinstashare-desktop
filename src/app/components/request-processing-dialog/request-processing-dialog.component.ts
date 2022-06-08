@@ -1,42 +1,40 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TalkWindowContextService } from '../services/context/talk-window-context.service';
-import { DialogCloseResult } from '../services/contracts/dialog/dialog';
-import { DialogCloseResultType } from '../services/contracts/enum/DialogCloseResultType';
+import { Component, Inject, OnInit } from "@angular/core";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { TalkWindowContextService } from "src/app/services/context/talk-window-context.service";
+import { DialogCloseResult } from "src/app/services/contracts/dialog/dialog";
+import { DialogCloseResultType } from "src/app/services/contracts/enum/DialogCloseResultType";
 
 @Component({
-  selector: 'app-request-processing-dialog',
-  templateUrl: './request-processing-dialog.component.html',
-  styleUrls: ['./request-processing-dialog.component.scss']
+  selector: "app-request-processing-dialog",
+  templateUrl: "./request-processing-dialog.component.html",
+  styleUrls: ["./request-processing-dialog.component.scss"],
 })
 export class RequestProcessingDialogComponent implements OnInit {
-
   constructor(
     private dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) private data: any,
-    public talkWindowContextService: TalkWindowContextService,
-  ) { }
+    public talkWindowContextService: TalkWindowContextService
+  ) {}
 
   //material icons map
   iconsMap: Object = {
-    'video': 'videocam',
-    'audio': 'phone_enabled',
-    'screen': 'desktop_windows',
-    'sound': 'volume_up',
-    'remoteControl': 'mouse'
+    video: "videocam",
+    audio: "phone_enabled",
+    screen: "desktop_windows",
+    sound: "volume_up",
+    remoteControl: "mouse",
   };
 
   // decline icons map
   declineIconsMap: Object = {
-    'video': 'videocam_off',
-    'audio': 'phone_disabled',
-    'screen': 'desktop_access_disabled',
-    'sound': 'volume_off',
-    'remoteControl': 'mouse'
+    video: "videocam_off",
+    audio: "phone_disabled",
+    screen: "desktop_access_disabled",
+    sound: "volume_off",
+    remoteControl: "mouse",
   };
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   /**
    * handler to decline/cancel media stream request
@@ -50,8 +48,8 @@ export class RequestProcessingDialogComponent implements OnInit {
       type: DialogCloseResultType.CLOSE_CALL,
       data: {
         action,
-        channel
-      }
+        channel,
+      },
     };
     this.dialogRef.close(result);
   }
@@ -66,10 +64,9 @@ export class RequestProcessingDialogComponent implements OnInit {
     const result: DialogCloseResult = {
       type: DialogCloseResultType.ACCEPT_CALL,
       data: {
-        channel
-      }
+        channel,
+      },
     };
     this.dialogRef.close(result);
   }
-
 }

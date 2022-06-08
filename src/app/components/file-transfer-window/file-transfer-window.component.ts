@@ -1,4 +1,3 @@
-import { ComponentSpec } from './../services/contracts/component/component-specs';
 import { InformationDialogComponent } from "./../information-dialog/information-dialog.component";
 import {
   AfterViewInit,
@@ -20,38 +19,37 @@ import { environment } from "src/environments/environment";
 import { AppLoginDialogComponent } from "../app-login-dialog/app-login-dialog.component";
 import { IconsDialogComponent } from "../icons-dialog/icons-dialog.component";
 import { ProgressDialogComponent } from "../progress-dialog/progress-dialog.component";
-import { ApiService } from "../services/api/api.service";
-import { AppConstants } from "../services/AppConstants";
-import { FileTransferContextService } from "../services/context/file-transfer/file-transfer-context.service";
-import { UserContextService } from "../services/context/user.context.service";
-import { MessageContext } from "../services/contracts/context/MessageContext";
-import { CreateDataChannelType } from "../services/contracts/CreateDataChannelType";
-import { DataChannelInfo } from "../services/contracts/datachannel/DataChannelInfo";
+import { ApiService } from "src/app/services/api/api.service";
+import { AppConstants } from "src/app/services/AppConstants";
+import { FileTransferContextService } from "src/app/services/context/file-transfer/file-transfer-context.service";
+import { UserContextService } from "src/app/services/context/user.context.service";
+import { ComponentSpec } from "src/app/services/contracts/component/component-specs";
+import { MessageContext } from "src/app/services/contracts/context/MessageContext";
+import { CreateDataChannelType } from "src/app/services/contracts/CreateDataChannelType";
+import { DataChannelInfo } from "src/app/services/contracts/datachannel/DataChannelInfo";
 import {
   DialogCloseResult,
   InfoDialogContext,
-} from "../services/contracts/dialog/dialog";
-import { DialogCloseResultType } from "../services/contracts/enum/DialogCloseResultType";
-import { DialogType } from "../services/contracts/enum/DialogType";
-import { ConnectionStateChangeContext } from "../services/contracts/event/ConnectionStateChangeContext";
+} from "src/app/services/contracts/dialog/dialog";
+import { DialogCloseResultType } from "src/app/services/contracts/enum/DialogCloseResultType";
+import { DialogType } from "src/app/services/contracts/enum/DialogType";
+import { ConnectionStateChangeContext } from "src/app/services/contracts/event/ConnectionStateChangeContext";
 import {
   FileTransferTabType,
   TransferredFileContext,
-} from "../services/contracts/file/file-transfer";
-import { CoreDataChannelService } from "../services/data-channel/core-data-channel.service";
-import { CoreFileSharingService } from "../services/file-sharing/core-file-sharing.service";
-import { LoggerUtil } from "../services/logging/LoggerUtil";
-import { SignalingService } from "../services/signaling/signaling.service";
-import { CoreAppUtilityService } from "../services/util/core-app-utility.service";
-import { FileTransferUtilityService } from "../services/util/file-transfer-utility.service";
-import { CoreWebrtcService } from "../services/webrtc/core-webrtc.service";
-import { FileTransferService } from "../services/webrtc/file-transfer-webrtc.service";
-import {
   FileData,
-  FileFragmentType,
-  FileShareError,
   FileShareProgress,
-} from "../services/contracts/file/file-transfer";
+  FileShareError,
+  FileFragmentType,
+} from "src/app/services/contracts/file/file-transfer";
+import { CoreDataChannelService } from "src/app/services/data-channel/core-data-channel.service";
+import { CoreFileSharingService } from "src/app/services/file-sharing/core-file-sharing.service";
+import { LoggerUtil } from "src/app/services/logging/LoggerUtil";
+import { SignalingService } from "src/app/services/signaling/signaling.service";
+import { CoreAppUtilityService } from "src/app/services/util/core-app-utility.service";
+import { FileTransferUtilityService } from "src/app/services/util/file-transfer-utility.service";
+import { CoreWebrtcService } from "src/app/services/webrtc/core-webrtc.service";
+import { FileTransferService } from "src/app/services/webrtc/file-transfer-webrtc.service";
 
 @Component({
   selector: "app-file-transfer-window",
@@ -88,7 +86,7 @@ export class FileTransferWindowComponent
   currentDialogRef: MatDialogRef<any>;
 
   //assets path
-  assetsPath = environment.is_native_app ? "assets/" : "../../assets/";
+  assetsPath = environment.is_native_app ? "assets/" : "../../../assets/";
 
   // selected tab on file transfer window
   currentTab: FileTransferTabType = FileTransferTabType.UPLOADS;

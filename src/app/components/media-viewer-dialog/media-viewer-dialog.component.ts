@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TalkWindowContextService } from '../services/context/talk-window-context.service';
-import { DialogCloseResult } from '../services/contracts/dialog/dialog';
-import { DialogCloseResultType } from '../services/contracts/enum/DialogCloseResultType';
+import { TalkWindowContextService } from 'src/app/services/context/talk-window-context.service';
+import { DialogCloseResult } from 'src/app/services/contracts/dialog/dialog';
+import { DialogCloseResultType } from 'src/app/services/contracts/enum/DialogCloseResultType';
 
 @Component({
   selector: 'app-media-viewer-dialog',

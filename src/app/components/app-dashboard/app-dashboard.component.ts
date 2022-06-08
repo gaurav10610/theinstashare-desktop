@@ -1,17 +1,17 @@
 import { Component, OnInit } from "@angular/core";
-import { SignalingService } from "../services/signaling/signaling.service";
-import { UserContextService } from "../services/context/user.context.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { environment } from "../../environments/environment";
-import { LoggerUtil } from "../services/logging/LoggerUtil";
-import { ApiService } from "../services/api/api.service";
-import { AppConstants } from "../services/AppConstants";
 import { Router } from "@angular/router";
-import { CoreAppUtilityService } from "../services/util/core-app-utility.service";
 import { GoogleAnalyticsService } from "ngx-google-analytics";
-import { DashboardAppIconContext } from "../services/contracts/DashboardAppIconContext";
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
+import { ApiService } from "src/app/services/api/api.service";
+import { AppConstants } from "src/app/services/AppConstants";
+import { UserContextService } from "src/app/services/context/user.context.service";
+import { DashboardAppIconContext } from "src/app/services/contracts/DashboardAppIconContext";
+import { LoggerUtil } from "src/app/services/logging/LoggerUtil";
+import { SignalingService } from "src/app/services/signaling/signaling.service";
+import { CoreAppUtilityService } from "src/app/services/util/core-app-utility.service";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-app-dashboard",
@@ -61,7 +61,7 @@ export class AppDashboardComponent implements OnInit {
   //assets path
   assetsPath = environment.is_native_app
     ? "assets/images/icons/"
-    : "../../assets/images/icons/";
+    : "../../../assets/images/icons/";
   isRegistering: Boolean = false;
 
   appConfig: any = {

@@ -1,10 +1,10 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { environment } from '../../environments/environment';
-import { DialogCloseResult } from '../services/contracts/dialog/dialog';
-import { DialogCloseResultType } from '../services/contracts/enum/DialogCloseResultType';
-import { LoggerUtil } from '../services/logging/LoggerUtil';
-import { SignalingService } from '../services/signaling/signaling.service';
+import { DialogCloseResult } from 'src/app/services/contracts/dialog/dialog';
+import { DialogCloseResultType } from 'src/app/services/contracts/enum/DialogCloseResultType';
+import { LoggerUtil } from 'src/app/services/logging/LoggerUtil';
+import { SignalingService } from 'src/app/services/signaling/signaling.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-app-login',
@@ -20,7 +20,7 @@ export class AppLoginDialogComponent implements OnInit {
   ) { }
 
   inputFieldLabel: String = 'Username';
-  assetsPath = environment.is_native_app ? 'assets/' : '../../assets/';
+  assetsPath = environment.is_native_app ? 'assets/' : '../../../assets/';
 
   @ViewChild('usernameInput', { static: false }) usernameInput: ElementRef;
 

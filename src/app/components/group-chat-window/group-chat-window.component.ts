@@ -1,34 +1,33 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { GoogleAnalyticsService } from 'ngx-google-analytics';
-import { environment } from '../../environments/environment';
-import { AppLoginDialogComponent } from '../app-login-dialog/app-login-dialog.component';
-import { GroupLoginDialogComponent } from '../group-login-dialog/group-login-dialog.component';
-import { ProgressDialogComponent } from '../progress-dialog/progress-dialog.component';
-import { ApiService } from '../services/api/api.service';
-import { AppConstants } from '../services/AppConstants';
-import { GroupChatContextService } from '../services/context/group-chat-window/group-chat-context.service';
-import { UserContextService } from '../services/context/user.context.service';
-import { CreateDataChannelType } from '../services/contracts/CreateDataChannelType';
-import { DialogCloseResult } from '../services/contracts/dialog/dialog';
-import { DialogCloseResultType } from '../services/contracts/enum/DialogCloseResultType';
-import { DialogType } from '../services/contracts/enum/DialogType';
-import { CoreDataChannelService } from '../services/data-channel/core-data-channel.service';
-import { LoggerUtil } from '../services/logging/LoggerUtil';
-import { SignalingService } from '../services/signaling/signaling.service';
-import { CoreAppUtilityService } from '../services/util/core-app-utility.service';
-import { CoreWebrtcService } from '../services/webrtc/core-webrtc.service';
-import { GroupChatWebrtcService } from '../services/webrtc/group-chat-webrtc.service';
+import { Component, OnInit } from "@angular/core";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { Router } from "@angular/router";
+import { GoogleAnalyticsService } from "ngx-google-analytics";
+import { ApiService } from "src/app/services/api/api.service";
+import { AppConstants } from "src/app/services/AppConstants";
+import { GroupChatContextService } from "src/app/services/context/group-chat-window/group-chat-context.service";
+import { UserContextService } from "src/app/services/context/user.context.service";
+import { CreateDataChannelType } from "src/app/services/contracts/CreateDataChannelType";
+import { DialogCloseResult } from "src/app/services/contracts/dialog/dialog";
+import { DialogCloseResultType } from "src/app/services/contracts/enum/DialogCloseResultType";
+import { DialogType } from "src/app/services/contracts/enum/DialogType";
+import { CoreDataChannelService } from "src/app/services/data-channel/core-data-channel.service";
+import { LoggerUtil } from "src/app/services/logging/LoggerUtil";
+import { SignalingService } from "src/app/services/signaling/signaling.service";
+import { CoreAppUtilityService } from "src/app/services/util/core-app-utility.service";
+import { CoreWebrtcService } from "src/app/services/webrtc/core-webrtc.service";
+import { GroupChatWebrtcService } from "src/app/services/webrtc/group-chat-webrtc.service";
+import { environment } from "src/environments/environment";
+import { AppLoginDialogComponent } from "../app-login-dialog/app-login-dialog.component";
+import { GroupLoginDialogComponent } from "../group-login-dialog/group-login-dialog.component";
+import { ProgressDialogComponent } from "../progress-dialog/progress-dialog.component";
 
 @Component({
-  selector: 'app-group-chat-window',
-  templateUrl: './group-chat-window.component.html',
-  styleUrls: ['./group-chat-window.component.scss']
+  selector: "app-group-chat-window",
+  templateUrl: "./group-chat-window.component.html",
+  styleUrls: ["./group-chat-window.component.scss"],
 })
 export class GroupChatWindowComponent implements OnInit {
-
   constructor(
     private userContextService: UserContextService,
     private coreAppUtilService: CoreAppUtilityService,
@@ -42,47 +41,62 @@ export class GroupChatWindowComponent implements OnInit {
     private snackBar: MatSnackBar,
     private router: Router,
     private gaService: GoogleAnalyticsService
-  ) { }
+  ) {}
 
   dialogRef: MatDialogRef<any>;
 
   //assets path
-  assetsPath = environment.is_native_app ? 'assets/' : '../../assets/';
+  assetsPath = environment.is_native_app ? "assets/" : "../../../assets/";
 
   activeUsers: any[] = [
-    { name: 'gaurav', status: 'online' },
-    { name: 'gaurav', status: 'online' },
-    { name: 'gaurav', status: 'online' },
-    { name: 'gaurav', status: 'online' }
+    { name: "gaurav", status: "online" },
+    { name: "gaurav", status: "online" },
+    { name: "gaurav", status: "online" },
+    { name: "gaurav", status: "online" },
   ];
 
   messages: any[] = [
-    { name: 'gaurav', message: 'I am good. How\'re you?', received: new Date().toLocaleString('en-US') },
-    { name: 'gaurav', message: 'I am good. How\'re you?', received: new Date().toLocaleString('en-US') },
-    { name: 'gaurav', message: 'I am good. How\'re you?', received: new Date().toLocaleString('en-US') },
-    { name: 'gaurav', message: 'I am good. How\'re you?', received: new Date().toLocaleString('en-US') }
+    {
+      name: "gaurav",
+      message: "I am good. How're you?",
+      received: new Date().toLocaleString("en-US"),
+    },
+    {
+      name: "gaurav",
+      message: "I am good. How're you?",
+      received: new Date().toLocaleString("en-US"),
+    },
+    {
+      name: "gaurav",
+      message: "I am good. How're you?",
+      received: new Date().toLocaleString("en-US"),
+    },
+    {
+      name: "gaurav",
+      message: "I am good. How're you?",
+      received: new Date().toLocaleString("en-US"),
+    },
   ];
 
   streams: any[] = [
-    { text: 'One', cols: 1, rows: 1 },
-    { text: 'Two', cols: 1, rows: 1 }
+    { text: "One", cols: 1, rows: 1 },
+    { text: "Two", cols: 1, rows: 1 },
   ];
 
   totalVideoStreamsColumns: Number;
 
-  currentTab: String = 'contacts'; // or 'chat'
+  currentTab: String = "contacts"; // or 'chat'
 
   ngOnInit(): void {
-
-    this.gaService.pageView('/group-chat', 'Group Chat', undefined, {
-      user: this.userContextService.getUserName()
+    this.gaService.pageView("/group-chat", "Group Chat", undefined, {
+      user: this.userContextService.getUserName(),
     });
 
     //remove existing signaling event listeners
-    this.signalingService.signalingRouter.off('connect');
-    this.signalingService.signalingRouter.off('disconnect');
-    this.signalingService.signalingRouter.off('message');
-    this.signalingService.signalingRouter.off('reconnect');
+    this.signalingService.signalingRouter.off("connect");
+    this.signalingService.signalingRouter.off("disconnect");
+    this.signalingService.signalingRouter.off("message");
+    this.signalingService.signalingRouter.off("reconnect");
 
     if (this.userContextService.isMobile) {
       this.totalVideoStreamsColumns = 1;
@@ -90,7 +104,8 @@ export class GroupChatWindowComponent implements OnInit {
       this.totalVideoStreamsColumns = 2;
     }
 
-    this.groupChatWebrtcService.onDataChannelMessage = this.onDataChannelMessage.bind(this);
+    this.groupChatWebrtcService.onDataChannelMessage =
+      this.onDataChannelMessage.bind(this);
 
     //this.setUpSignaling();
   }
@@ -99,16 +114,14 @@ export class GroupChatWindowComponent implements OnInit {
    * setup signaling mechanism for this component
    */
   async setUpSignaling() {
-
     // check if router is connected to server
     if (!this.signalingService.signalingRouter.connected) {
-      this.snackBar.open('disconnected from server....', undefined, {
-        panelClass: ['snackbar-class']
+      this.snackBar.open("disconnected from server....", undefined, {
+        panelClass: ["snackbar-class"],
       });
     }
 
     if (this.signalingService.isRegistered) {
-
       /**
        * this is the case when user has already been registered with server,
        * usually the scenario when user is routed to this component after logging
@@ -122,19 +135,20 @@ export class GroupChatWindowComponent implements OnInit {
         onmessage: this.onRouterMessage.bind(this),
         onreconnect: this.onRouterConnect.bind(this),
         onclose: () => {
-          this.snackBar.open('disconnected from server....');
-        }
+          this.snackBar.open("disconnected from server....");
+        },
       };
       this.signalingService.registerEventListeners(eventsConfig);
 
       try {
-        await this.registerApplicationUser(AppConstants.APPLICATION_NAMES.GROUP_CHAT);
+        await this.registerApplicationUser(
+          AppConstants.APPLICATION_NAMES.GROUP_CHAT
+        );
       } catch (error) {
         LoggerUtil.logAny(error);
-        this.router.navigateByUrl('app');
+        this.router.navigateByUrl("app");
       }
     } else {
-
       /**
        * this is the case when user either reloads this page or directly came on
        * this page via its url
@@ -153,8 +167,8 @@ export class GroupChatWindowComponent implements OnInit {
         onreconnect: this.onRouterConnect.bind(this),
         onmessage: this.onRouterMessage.bind(this),
         onclose: () => {
-          this.snackBar.open('disconnected from server....');
-        }
+          this.snackBar.open("disconnected from server....");
+        },
       };
       this.signalingService.registerEventListeners(eventsConfig);
     }
@@ -175,7 +189,11 @@ export class GroupChatWindowComponent implements OnInit {
    */
   async onRouterMessage(signalingMessage: any) {
     try {
-      LoggerUtil.logAny(`received message via ${signalingMessage.via}: ${JSON.stringify(signalingMessage)}`);
+      LoggerUtil.logAny(
+        `received message via ${signalingMessage.via}: ${JSON.stringify(
+          signalingMessage
+        )}`
+      );
       switch (signalingMessage.type) {
         case AppConstants.REGISTER:
           await this.handleApplicationRegister(signalingMessage);
@@ -197,10 +215,16 @@ export class GroupChatWindowComponent implements OnInit {
           this.handleWebrtcEvent(signalingMessage);
 
         default:
-          LoggerUtil.logAny(`received unknown signaling message with type: ${signalingMessage.type}`);
+          LoggerUtil.logAny(
+            `received unknown signaling message with type: ${signalingMessage.type}`
+          );
       }
     } catch (err) {
-      LoggerUtil.logAny(`error occured while handling received signaling message: ${JSON.stringify(signalingMessage)}`);
+      LoggerUtil.logAny(
+        `error occured while handling received signaling message: ${JSON.stringify(
+          signalingMessage
+        )}`
+      );
       LoggerUtil.logAny(err);
     }
   }
@@ -213,21 +237,28 @@ export class GroupChatWindowComponent implements OnInit {
    */
   async handleWebrtcEvent(signalingMessage: any) {
     LoggerUtil.logAny(`handling webrtc event from : ${signalingMessage.from}`);
-    const webrtcContext: any = this.userContextService.getUserWebrtcContext(signalingMessage.from);
+    const webrtcContext: any = this.userContextService.getUserWebrtcContext(
+      signalingMessage.from
+    );
     switch (signalingMessage.event) {
-
       /**
        *
        * webrtc data channel open event received from remote user's end
        */
       case AppConstants.WEBRTC_EVENTS.CHANNEL_OPEN:
-        LoggerUtil.logAny(`${signalingMessage.channel} data channel has been opened with user: ${signalingMessage.from}`);
-        webrtcContext[AppConstants.MEDIA_CONTEXT][signalingMessage.channel][AppConstants.CONNECTION_STATE] = AppConstants.CONNECTION_STATES.CONNECTED;
+        LoggerUtil.logAny(
+          `${signalingMessage.channel} data channel has been opened with user: ${signalingMessage.from}`
+        );
+        webrtcContext[AppConstants.MEDIA_CONTEXT][signalingMessage.channel][
+          AppConstants.CONNECTION_STATE
+        ] = AppConstants.CONNECTION_STATES.CONNECTED;
         switch (signalingMessage.channel) {
-
           case AppConstants.TEXT:
-            this.groupChatWebrtcService.sendQueuedMessagesOnChannel(signalingMessage.from);
-            const groupName: String = this.groupChatContextService.getGroupName();
+            this.groupChatWebrtcService.sendQueuedMessagesOnChannel(
+              signalingMessage.from
+            );
+            const groupName: String =
+              this.groupChatContextService.getGroupName();
 
             /**
              * if group name available in session storage then join in that group else open
@@ -235,7 +266,8 @@ export class GroupChatWindowComponent implements OnInit {
              *
              */
             if (groupName) {
-              const groupExist: Boolean = await this.groupChatWebrtcService.checkIfGroupExist(groupName);
+              const groupExist: Boolean =
+                await this.groupChatWebrtcService.checkIfGroupExist(groupName);
               if (groupExist) {
                 this.groupChatWebrtcService.registerUserInGroup(groupName);
               } else {
@@ -261,16 +293,20 @@ export class GroupChatWindowComponent implements OnInit {
   async consumeWebrtcOffer(signalingMessage: any): Promise<void> {
     return new Promise<void>(async (resolve, reject) => {
       try {
-
         /**
          *
          * if this offer message is for renegotiating an already established connection
          *
          */
         if (signalingMessage.renegotiate) {
-
-          this.coreWebrtcService.mediaContextInit(signalingMessage.channel, signalingMessage.from);
-          const peerConnection: any = this.userContextService.getUserWebrtcContext(signalingMessage.from)[AppConstants.CONNECTION];
+          this.coreWebrtcService.mediaContextInit(
+            signalingMessage.channel,
+            signalingMessage.from
+          );
+          const peerConnection: any =
+            this.userContextService.getUserWebrtcContext(signalingMessage.from)[
+              AppConstants.CONNECTION
+            ];
 
           /**
            * handle the received webrtc offer 'sdp', set the remote description and
@@ -281,8 +317,12 @@ export class GroupChatWindowComponent implements OnInit {
            * to be sent to other user
            *
            */
-          const answerContainer: any = await this.coreWebrtcService
-            .generateAnswer(peerConnection, signalingMessage.offer, signalingMessage.channel);
+          const answerContainer: any =
+            await this.coreWebrtcService.generateAnswer(
+              peerConnection,
+              signalingMessage.offer,
+              signalingMessage.channel
+            );
 
           /**
            * send the composed 'answer' signaling message to the other user from whom
@@ -294,19 +334,24 @@ export class GroupChatWindowComponent implements OnInit {
             answer: answerContainer.answerPayload.answer,
             channel: answerContainer.answerPayload.channel,
             from: this.userContextService.username,
-            to: signalingMessage.from
+            to: signalingMessage.from,
           });
         } else {
-
           /**
            *
            * this will setup a new webrtc connection
            */
-          this.groupChatWebrtcService.setUpWebrtcConnection(signalingMessage.from, signalingMessage);
+          this.groupChatWebrtcService.setUpWebrtcConnection(
+            signalingMessage.from,
+            signalingMessage
+          );
         }
         resolve();
       } catch (e) {
-        LoggerUtil.logAny('there is an error while consuming webrtc offer received from ' + signalingMessage.from);
+        LoggerUtil.logAny(
+          "there is an error while consuming webrtc offer received from " +
+            signalingMessage.from
+        );
         reject(e);
       }
     });
@@ -322,7 +367,7 @@ export class GroupChatWindowComponent implements OnInit {
       : undefined;
     if (username) {
       this.openDialog(DialogType.PROGRESS, {
-        message: 'login in progress'
+        message: "login in progress",
       });
       this.signalingService.registerOnSignalingServer(username, true);
     } else {
@@ -340,7 +385,6 @@ export class GroupChatWindowComponent implements OnInit {
   handleApplicationRegister(signalingMessage: any) {
     return new Promise<void>(async (resolve) => {
       if (signalingMessage.success) {
-
         /**
          * this is the case when user was successfully able to register with
          * the server
@@ -359,16 +403,20 @@ export class GroupChatWindowComponent implements OnInit {
          */
         this.signalingService.isRegistered = signalingMessage.success;
         this.userContextService.username = signalingMessage.username;
-        this.coreAppUtilService.setStorageValue(AppConstants.STORAGE_USER, signalingMessage.username);
-        this.signalingService.signalingRouter.off('connect');
+        this.coreAppUtilService.setStorageValue(
+          AppConstants.STORAGE_USER,
+          signalingMessage.username
+        );
+        this.signalingService.signalingRouter.off("connect");
         try {
-          await this.registerApplicationUser(AppConstants.APPLICATION_NAMES.GROUP_CHAT);
+          await this.registerApplicationUser(
+            AppConstants.APPLICATION_NAMES.GROUP_CHAT
+          );
         } catch (error) {
           LoggerUtil.logAny(error);
-          this.router.navigateByUrl('app');
+          this.router.navigateByUrl("app");
         }
       } else {
-
         /**
          * user registeration failed case -
          *
@@ -387,20 +435,27 @@ export class GroupChatWindowComponent implements OnInit {
   async registerApplicationUser(applicationName: String) {
     return new Promise(async (resolve, reject) => {
       try {
-        const data: any = await this.apiService.post(AppConstants.API_ENDPOINTS.REGISTER_APP_USER, {
-          username: this.userContextService.username,
-          groupName: applicationName
-        }).toPromise();
+        const data: any = await this.apiService
+          .post(AppConstants.API_ENDPOINTS.REGISTER_APP_USER, {
+            username: this.userContextService.username,
+            groupName: applicationName,
+          })
+          .toPromise();
 
         if (data && data.registered) {
-          LoggerUtil.logAny(`user was succussfully registered for app: ${applicationName}`);
+          LoggerUtil.logAny(
+            `user was succussfully registered for app: ${applicationName}`
+          );
           this.userContextService.selectedApp = applicationName;
-          this.coreAppUtilService.setStorageValue(AppConstants.STORAGE_APPLICATION, applicationName.toString());
+          this.coreAppUtilService.setStorageValue(
+            AppConstants.STORAGE_APPLICATION,
+            applicationName.toString()
+          );
           /**
            * show the progress bar with appropriate message for connecting with media server
            */
           this.openDialog(DialogType.PROGRESS, {
-            message: 'establishing connection with media server'
+            message: "establishing connection with media server",
           });
 
           /**
@@ -409,18 +464,18 @@ export class GroupChatWindowComponent implements OnInit {
            */
           const createDataChannel: CreateDataChannelType = {
             channel: AppConstants.TEXT,
-            username: AppConstants.MEDIA_SERVER
-          }
+            username: AppConstants.MEDIA_SERVER,
+          };
           this.groupChatWebrtcService.setUpDataChannel(createDataChannel);
-          resolve('user application registration was successful');
+          resolve("user application registration was successful");
         } else {
           this.userContextService.selectedApp = undefined;
-          reject('user application registration was unsuccessful');
+          reject("user application registration was unsuccessful");
         }
       } catch (e) {
         LoggerUtil.logAny(e);
         this.userContextService.selectedApp = undefined;
-        reject('user applcation registration was unsuccessful');
+        reject("user applcation registration was unsuccessful");
       }
     });
   }
@@ -445,23 +500,23 @@ export class GroupChatWindowComponent implements OnInit {
       case DialogType.APP_LOGIN:
         this.dialogRef = this.dialog.open(AppLoginDialogComponent, {
           disableClose: true,
-          panelClass: 'dialog-class',
-          data
+          panelClass: "dialog-class",
+          data,
         });
         break;
 
       case DialogType.GROUP_LOGIN:
         this.dialogRef = this.dialog.open(GroupLoginDialogComponent, {
           disableClose: true,
-          panelClass: 'dialog-class',
-          data
+          panelClass: "dialog-class",
+          data,
         });
         break;
 
       case DialogType.PROGRESS:
         this.dialogRef = this.dialog.open(ProgressDialogComponent, {
           disableClose: true,
-          data
+          data,
         });
         break;
 
@@ -492,13 +547,18 @@ export class GroupChatWindowComponent implements OnInit {
    *
    */
   handleDialogClose(dialogueCloseResult: DialogCloseResult) {
-    LoggerUtil.logAny(`dialog got closed with result: ${JSON.stringify(dialogueCloseResult)}`);
+    LoggerUtil.logAny(
+      `dialog got closed with result: ${JSON.stringify(dialogueCloseResult)}`
+    );
     switch (dialogueCloseResult.type) {
       case DialogCloseResultType.APP_LOGIN:
         this.openDialog(DialogType.PROGRESS, {
-          message: 'login in progress'
+          message: "login in progress",
         });
-        this.signalingService.registerOnSignalingServer(dialogueCloseResult.data.username, true);
+        this.signalingService.registerOnSignalingServer(
+          dialogueCloseResult.data.username,
+          true
+        );
         break;
 
       case DialogCloseResultType.GROUP_LOGIN:
@@ -513,15 +573,17 @@ export class GroupChatWindowComponent implements OnInit {
    * logout from theinstshare
    */
   logout() {
-    LoggerUtil.logAny('logging out.........');
+    LoggerUtil.logAny("logging out.........");
     /**
      * send de-register message to server to notify that user has opted to
      * logout
      */
-    this.signalingService.deRegisterOnSignalingServer(this.userContextService.getUserName());
+    this.signalingService.deRegisterOnSignalingServer(
+      this.userContextService.getUserName()
+    );
     this.userContextService.applicationSignOut();
     this.userContextService.resetCoreAppContext();
-    this.router.navigateByUrl('login');
+    this.router.navigateByUrl("login");
   }
 
   /**
@@ -534,7 +596,6 @@ export class GroupChatWindowComponent implements OnInit {
     LoggerUtil.logAny(`message received on data channel: ${jsonMessage}`);
     const message: any = JSON.parse(jsonMessage);
     switch (message.type) {
-
       case AppConstants.SIGNALING:
         this.onRouterMessage(message.message);
         break;
