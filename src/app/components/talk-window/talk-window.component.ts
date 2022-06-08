@@ -7,35 +7,35 @@ import {
   AfterViewInit,
   NgZone,
 } from "@angular/core";
-import { SignalingService } from "../services/signaling/signaling.service";
-import { LoggerUtil } from "../services/logging/LoggerUtil";
-import { ApiService } from "../services/api/api.service";
-import { TalkWindowWebrtcService } from "../services/webrtc/talk-window-webrtc.service";
-import { AppConstants } from "../services/AppConstants";
 import { Router } from "@angular/router";
-import { TalkWindowUtilityService } from "../services/util/talk-window-utility.service";
-import { UserContextService } from "../services/context/user.context.service";
-import { environment } from "../../environments/environment";
-import { WebRemoteAccessService } from "../services/remote-access/web-remote-access.service";
-import { CoreWebrtcService } from "../services/webrtc/core-webrtc.service";
-import { CoreAppUtilityService } from "../services/util/core-app-utility.service";
-import { TalkWindowContextService } from "../services/context/talk-window-context.service";
-import { MessageService } from "../services/message/message.service";
-import { CreateDataChannelType } from "../services/contracts/CreateDataChannelType";
-import { StartMediaStreamType } from "../services/contracts/StartMediaStreamType";
-import { CallbackContextType } from "../services/contracts/CallbackContextType";
-import { CoreDataChannelService } from "../services/data-channel/core-data-channel.service";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { DialogCloseResult } from "../services/contracts/dialog/dialog";
-import { DialogType } from "../services/contracts/enum/DialogType";
 import { ProgressDialogComponent } from "../progress-dialog/progress-dialog.component";
 import { AppLoginDialogComponent } from "../app-login-dialog/app-login-dialog.component";
 import { MediaViewerDialogComponent } from "../media-viewer-dialog/media-viewer-dialog.component";
 import { IconsDialogComponent } from "../icons-dialog/icons-dialog.component";
-import { DialogCloseResultType } from "../services/contracts/enum/DialogCloseResultType";
 import { RequestProcessingDialogComponent } from "../request-processing-dialog/request-processing-dialog.component";
 import { GoogleAnalyticsService } from "ngx-google-analytics";
+import { ApiService } from "src/app/services/api/api.service";
+import { AppConstants } from "src/app/services/AppConstants";
+import { TalkWindowContextService } from "src/app/services/context/talk-window-context.service";
+import { UserContextService } from "src/app/services/context/user.context.service";
+import { CallbackContextType } from "src/app/services/contracts/CallbackContextType";
+import { CreateDataChannelType } from "src/app/services/contracts/CreateDataChannelType";
+import { DialogCloseResult } from "src/app/services/contracts/dialog/dialog";
+import { DialogCloseResultType } from "src/app/services/contracts/enum/DialogCloseResultType";
+import { DialogType } from "src/app/services/contracts/enum/DialogType";
+import { StartMediaStreamType } from "src/app/services/contracts/StartMediaStreamType";
+import { CoreDataChannelService } from "src/app/services/data-channel/core-data-channel.service";
+import { LoggerUtil } from "src/app/services/logging/LoggerUtil";
+import { MessageService } from "src/app/services/message/message.service";
+import { WebRemoteAccessService } from "src/app/services/remote-access/web-remote-access.service";
+import { SignalingService } from "src/app/services/signaling/signaling.service";
+import { CoreAppUtilityService } from "src/app/services/util/core-app-utility.service";
+import { TalkWindowUtilityService } from "src/app/services/util/talk-window-utility.service";
+import { CoreWebrtcService } from "src/app/services/webrtc/core-webrtc.service";
+import { TalkWindowWebrtcService } from "src/app/services/webrtc/talk-window-webrtc.service";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-talk-window",
@@ -70,7 +70,7 @@ export class TalkWindowComponent implements OnInit, AfterViewInit {
   fileReader: any;
 
   //assets path
-  assetsPath = environment.is_native_app ? "assets/" : "../../assets/";
+  assetsPath = environment.is_native_app ? "assets/" : "../../../assets/";
 
   @ViewChild("messageHistory", { static: false }) messageHistory: ElementRef;
   @ViewChild("messageHistoryDiv", { static: false })
