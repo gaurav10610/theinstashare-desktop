@@ -1,42 +1,49 @@
 {
-  "productName": "theinstashare",
+  "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
+  "appId": "com.theinstashare.desktop",
+  "productName": "InstaShare Next",
   "directories": {
-    "output": "release/"
+    "output": "release"
   },
-  "npmRebuild": false,
   "files": [
-    "**/*",
-    "!**/*.ts",
-    "!*.code-workspace",
-    "!LICENSE.md",
-    "!package.json",
-    "!package-lock.json",
-    "!src/",
-    "!e2e/",
-    "!hooks/",
-    "!angular.json",
-    "!_config.yml",
-    "!karma.conf.js",
-    "!tsconfig.json",
-    "!tslint.json"
+    "out/**/*",
+    "!out/**/*.map",
+    "package.json"
   ],
+  "asar": true,
+  "asarUnpack": [
+    "**/node_modules/@nut-tree-fork/**",
+    "**/node_modules/node-pty/**"
+  ],
+  "mac": {
+    "target": ["dmg", "zip"],
+    "category": "public.app-category.productivity",
+    "hardenedRuntime": true,
+    "gatekeeperAssess": false,
+    "entitlements": "build/entitlements.mac.plist",
+    "entitlementsInherit": "build/entitlements.mac.plist",
+    "darkModeSupport": true
+  },
   "win": {
-    "icon": "dist/assets/icons",
-    "asar": true,
     "target": [
-      "portable"
+      {
+        "target": "nsis",
+        "arch": ["x64", "arm64"]
+      },
+      {
+        "target": "portable",
+        "arch": ["x64"]
+      }
     ]
   },
-  "mac": {
-    "icon": "dist/assets/icons",
-    "target": [
-      "dmg"
-    ]
+  "nsis": {
+    "oneClick": true,
+    "perMachine": false,
+    "allowToChangeInstallationDirectory": true,
+    "deleteAppDataOnUninstall": false
   },
   "linux": {
-    "icon": "dist/assets/icons",
-    "target": [
-      "AppImage"
-    ]
+    "target": ["AppImage", "deb"],
+    "category": "Network;Utility;"
   }
 }
