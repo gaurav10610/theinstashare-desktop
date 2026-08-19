@@ -2,7 +2,8 @@ import React from 'react';
 import { usePeerStore } from '../../stores/usePeerStore';
 import { useFileStore } from '../../stores/useFileStore';
 import { useCallStore } from '../../stores/useCallStore';
-import { cn } from '../ui/M3Components';
+import { useNotificationStore } from '../../stores/useNotificationStore';
+import { cn } from '../ui';
 import {
   Compass,
   MessageSquare,
@@ -27,6 +28,7 @@ export function Sidebar() {
   const { activeTab, setActiveTab } = usePeerStore();
   const { transfers } = useFileStore();
   const { isActive: isCallActive } = useCallStore();
+  const { incomingCall } = useNotificationStore();
 
   const activeTransfersCount = Object.values(transfers).filter(
     (t) => t.status === 'transferring' || t.status === 'queued'
@@ -34,7 +36,7 @@ export function Sidebar() {
 
   const navItems: NavItem[] = [
     { id: 'dashboard', label: 'Radar', icon: Compass },
-    { id: 'talk', label: '1:1 Talk', icon: MessageSquare, isLive: isCallActive },
+    { id: 'talk', label: '1:1 Talk', icon: MessageSquare, isLive: isCallActive || incomingCall !== null },
     { id: 'files', label: 'Transfers', icon: HardDriveUpload, badge: activeTransfersCount },
     { id: 'remote', label: 'Remote', icon: MonitorPlay },
     { id: 'terminal', label: 'P2P Shell', icon: Terminal },
@@ -43,11 +45,11 @@ export function Sidebar() {
   ];
 
   return (
-    <aside className="w-20 bg-slate-950/80 border-r border-slate-800/80 flex flex-col items-center py-5 justify-between select-none shrink-0">
+    <aside className="w-20 bg-white/80 dark:bg-slate-950/80 border-r border-slate-200/80 dark:border-slate-800/80 flex flex-col items-center py-5 justify-between select-none shrink-0">
       <div className="flex flex-col items-center gap-6 w-full">
         {/* App Logo */}
         <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center shadow-lg shadow-indigo-500/25 border border-indigo-400/30">
-          <span className="font-extrabold text-white text-lg tracking-tight">IS</span>
+          <span className="font-extrabold text-white text-lg tracking-tight">ZH</span>
         </div>
 
         {/* Navigation Items */}
@@ -63,8 +65,8 @@ export function Sidebar() {
                 className={cn(
                   'group relative w-full flex flex-col items-center gap-1 py-2 px-1 rounded-2xl transition-all duration-200 cursor-pointer',
                   isActive
-                    ? 'bg-indigo-600/20 text-indigo-400 font-semibold'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+                    ? 'bg-indigo-600/15 dark:bg-indigo-600/20 text-indigo-600 dark:text-indigo-400 font-semibold shadow-xs'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-900/60'
                 )}
               >
                 {/* Active Indicator Bar */}
@@ -76,20 +78,20 @@ export function Sidebar() {
                   <Icon
                     className={cn(
                       'w-5 h-5 transition-transform group-hover:scale-110',
-                      isActive && 'text-indigo-400',
-                      item.isAI && 'text-amber-400'
+                      isActive && 'text-indigo-600 dark:text-indigo-400',
+                      item.isAI && 'text-amber-500 dark:text-amber-400'
                     )}
                   />
 
                   {/* Badges / Live indicators */}
                   {item.badge !== undefined && item.badge > 0 && (
-                    <span className="absolute -top-1.5 -right-2 bg-indigo-500 text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full ring-2 ring-slate-950">
+                    <span className="absolute -top-1.5 -right-2 bg-indigo-500 text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full ring-2 ring-white dark:ring-slate-950">
                       {item.badge}
                     </span>
                   )}
 
                   {item.isLive && (
-                    <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-500 rounded-full ring-2 ring-slate-950 animate-pulse" />
+                    <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-500 rounded-full ring-2 ring-white dark:ring-slate-950 animate-pulse" />
                   )}
                 </div>
 
@@ -101,7 +103,7 @@ export function Sidebar() {
       </div>
 
       {/* Bottom Version */}
-      <div className="text-[10px] font-semibold text-slate-600 tracking-wider">
+      <div className="text-[10px] font-semibold text-slate-400 dark:text-slate-600 tracking-wider">
         v2.0
       </div>
     </aside>

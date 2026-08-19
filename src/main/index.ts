@@ -14,6 +14,10 @@ let mainWindow: BrowserWindow | null = null;
 const isDev = process.env.NODE_ENV === 'development' || !app.isPackaged;
 
 // Parse CLI flags for multi-instance testing
+const userDataDirArg = process.argv.find((arg) => arg.startsWith('--user-data-dir='))?.split('=')[1];
+if (userDataDirArg) {
+  app.setPath('userData', userDataDirArg);
+}
 const peerNameArg = process.argv.find((arg) => arg.startsWith('--peer-name='))?.split('=')[1];
 const peerAvatarArg = process.argv.find((arg) => arg.startsWith('--peer-avatar='))?.split('=')[1];
 const windowTitle = peerNameArg ? `ZeroHop - ${peerNameArg}` : 'ZeroHop';

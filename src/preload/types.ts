@@ -39,7 +39,9 @@ export interface ElectronAPI {
   startDiscovery: (peerInfo: DiscoveredPeer) => Promise<boolean>;
   stopDiscovery: () => Promise<boolean>;
   getLocalIPs: () => Promise<string[]>;
+  sendSignal: (targetPeerId: string, signal: any) => Promise<boolean>;
   onPeerFound: (callback: (peer: DiscoveredPeer) => void) => () => void;
+  onSignalReceived: (callback: (data: { sourcePeerId: string; sourcePeerName?: string; signal: any }) => void) => () => void;
 
   startWebBridge: (hostName: string, port?: number) => Promise<{ url: string; qrCode: string }>;
   stopWebBridge: () => Promise<boolean>;

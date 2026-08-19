@@ -18,8 +18,15 @@ export class WebRTCTransport {
   public onMessage?: (channel: string, data: any) => void;
   public onConnectionStateChange?: (state: RTCPeerConnectionState) => void;
   public onTrack?: (track: MediaStreamTrack, stream: MediaStream) => void;
+  public onIceCandidate?: (candidate: RTCIceCandidate) => void;
+  public onDataChannel?: (channel: RTCDataChannel) => void;
 
-  constructor(private config: TransportConfig = DEFAULT_STUN_CONFIG) {}
+  constructor(
+    public readonly localPeerId: string,
+    public readonly remotePeerId: string,
+    public readonly sendSignaling?: (data: any) => void,
+    private config: TransportConfig = DEFAULT_STUN_CONFIG
+  ) {}
 
   public createPeerConnection(): RTCPeerConnection {
     if (this.peerConnection) {
@@ -34,6 +41,13 @@ export class WebRTCTransport {
       }
     };
 
+    this.peerConnection.onicecandidate = (event) => {
+      if (event.candidate) {
+        this.onIceCandidate?.(event.candidate);
+        this.sendSignaling?.({ type: 'ice-candidate', candidate: event.candidate.toJSON() });
+      }
+    };
+
     this.peerConnection.ontrack = (event) => {
       const stream = event.streams[0] || new MediaStream([event.track]);
       this.remoteStreams.set(event.track.kind, stream);
@@ -42,6 +56,7 @@ export class WebRTCTransport {
 
     this.peerConnection.ondatachannel = (event) => {
       this.setupDataChannel(event.channel);
+      this.onDataChannel?.(event.channel);
     };
 
     return this.peerConnection;
@@ -54,6 +69,10 @@ export class WebRTCTransport {
     const channel = this.peerConnection!.createDataChannel(label, options);
     this.setupDataChannel(channel);
     return channel;
+  }
+
+  public getDataChannel(label: string): RTCDataChannel | undefined {
+    return this.dataChannels.get(label);
   }
 
   private setupDataChannel(channel: RTCDataChannel): void {
@@ -115,7 +134,11 @@ export class WebRTCTransport {
 
   public async addIceCandidate(candidate: RTCIceCandidateInit): Promise<void> {
     if (this.peerConnection) {
-      await this.peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+      try {
+        await this.peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+      } catch (err) {
+        console.warn('ICE candidate add error:', err);
+      }
     }
   }
 

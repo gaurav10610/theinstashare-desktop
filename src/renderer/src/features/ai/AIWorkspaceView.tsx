@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAIStore } from '../../stores/useAIStore';
 import { AIClient } from '../../core/ai/AIClient';
 import { WhisperTranscriber } from '../../core/transcription/WhisperTranscriber';
-import { M3Button, M3Card, M3Badge, M3TextField, M3Tabs } from '../../components/ui/M3Components';
+import { Button, Card, Badge, Input, Tabs } from '../../components/ui';
 import {
   Mic,
   FileText,
@@ -105,23 +105,23 @@ ${transcriptText}`,
   };
 
   return (
-    <div className="h-full w-full overflow-y-auto p-7 flex flex-col gap-6">
+    <div className="h-full w-full overflow-y-auto p-7 flex flex-col gap-6 text-slate-900 dark:text-slate-100">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shrink-0">
         <div>
           <div className="flex items-center gap-2 mb-0.5">
-            <h1 className="text-xl font-bold text-slate-100 tracking-tight">AI-Native Copilot Hub</h1>
-            <M3Badge variant="secondary">
+            <h1 className="text-xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">AI-Native Copilot Hub</h1>
+            <Badge variant="secondary">
               <Cpu className="w-3 h-3 mr-1 inline" />
               {settings.provider.toUpperCase()}
-            </M3Badge>
+            </Badge>
           </div>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-500 dark:text-slate-400">
             100% Local Offline Whisper speech-to-text + Bring-Your-Own-Key (BYOK) privacy-first AI.
           </p>
         </div>
 
-        <M3Tabs
+        <Tabs
           activeTab={activeTab}
           onChange={(tab: any) => setActiveTab(tab)}
           tabs={[
@@ -135,30 +135,30 @@ ${transcriptText}`,
       {/* Tab 1: Live Whisper Transcriber */}
       {activeTab === 'transcriber' && (
         <div className="flex flex-col gap-6">
-          <M3Card className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-gradient-to-r from-indigo-950/30 to-slate-900 border-indigo-500/20">
+          <Card className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-gradient-to-r from-indigo-500/10 dark:from-indigo-950/30 to-white dark:to-slate-900 border-indigo-500/20">
             <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 shrink-0">
+              <div className="w-11 h-11 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-500 dark:text-indigo-400 shrink-0">
                 <Mic className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-semibold text-xs text-slate-100">100% Offline Local Speech Transcriber</h3>
-                <p className="text-xs text-slate-400 mt-0.5">
+                <h3 className="font-semibold text-xs text-slate-900 dark:text-slate-100">100% Offline Local Speech Transcriber</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                   Runs Whisper ONNX directly on your GPU/CPU with 0 cloud dependencies or API keys.
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-2.5">
-              <M3Button
-                variant={isTranscribing ? 'outlined' : 'filled'}
+              <Button
+                variant={isTranscribing ? 'outlined' : 'primary'}
                 size="sm"
                 icon={<Mic className="w-3.5 h-3.5" />}
                 onClick={handleToggleTranscription}
               >
                 {isTranscribing ? 'Stop Transcribing' : 'Start Live Transcription'}
-              </M3Button>
+              </Button>
 
-              <M3Button
+              <Button
                 variant="tonal"
                 size="sm"
                 icon={<FileText className="w-3.5 h-3.5" />}
@@ -166,39 +166,39 @@ ${transcriptText}`,
                 onClick={handleGenerateMeetingNotes}
               >
                 {isGeneratingSummary ? 'Generating...' : 'Generate Minutes'}
-              </M3Button>
+              </Button>
             </div>
-          </M3Card>
+          </Card>
 
           {/* Transcript Feed */}
-          <M3Card className="flex flex-col gap-3 min-h-80">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+          <Card className="flex flex-col gap-3 min-h-80">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+              <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                 Live Speech Stream
               </span>
-              <M3Badge variant={isTranscribing ? 'success' : 'primary'}>
+              <Badge variant={isTranscribing ? 'success' : 'primary'}>
                 {isTranscribing ? 'Listening Live' : 'Idle'}
-              </M3Badge>
+              </Badge>
             </div>
 
             <div className="flex-1 flex flex-col gap-2.5 overflow-y-auto max-h-96 pr-1">
               {liveTranscript.length === 0 ? (
-                <div className="text-center py-20 text-xs text-slate-500">
+                <div className="text-center py-20 text-xs text-slate-400 dark:text-slate-500">
                   Click "Start Live Transcription" to begin local real-time speech recognition during calls.
                 </div>
               ) : (
                 liveTranscript.map((t, idx) => (
-                  <div key={idx} className="p-3 rounded-xl bg-slate-900/70 border border-slate-800 text-xs flex flex-col gap-1">
+                  <div key={idx} className="p-3 rounded-xl bg-slate-100 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 text-xs flex flex-col gap-1">
                     <div className="flex items-center justify-between">
-                      <span className="font-bold text-indigo-300">{t.speaker}</span>
-                      <span className="text-[10px] text-slate-500 font-mono">{t.time}</span>
+                      <span className="font-bold text-indigo-600 dark:text-indigo-300">{t.speaker}</span>
+                      <span className="text-[10px] text-slate-400 dark:text-slate-500 font-mono">{t.time}</span>
                     </div>
-                    <p className="text-slate-200 leading-relaxed">{t.text}</p>
+                    <p className="text-slate-800 dark:text-slate-200 leading-relaxed">{t.text}</p>
                   </div>
                 ))
               )}
             </div>
-          </M3Card>
+          </Card>
         </div>
       )}
 
@@ -206,24 +206,24 @@ ${transcriptText}`,
       {activeTab === 'notes' && (
         <div className="flex flex-col gap-4">
           {meetingNotes.length === 0 ? (
-            <M3Card className="text-center py-20 text-xs text-slate-500">
+            <Card className="text-center py-20 text-xs text-slate-400 dark:text-slate-500">
               No meeting notes generated yet. Transcribe a call and click "Generate Minutes".
-            </M3Card>
+            </Card>
           ) : (
             meetingNotes.map((note) => (
-              <M3Card key={note.id} className="flex flex-col gap-4 p-5">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <Card key={note.id} className="flex flex-col gap-4 p-5">
+                <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
                   <div>
-                    <h3 className="font-semibold text-sm text-slate-100">{note.title}</h3>
-                    <span className="text-xs text-slate-400 mt-0.5">{note.date} • Duration: {note.duration}</span>
+                    <h3 className="font-semibold text-sm text-slate-900 dark:text-slate-100">{note.title}</h3>
+                    <span className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{note.date} • Duration: {note.duration}</span>
                   </div>
-                  <M3Badge variant="success">Saved to Local Disk</M3Badge>
+                  <Badge variant="success">Saved to Local Disk</Badge>
                 </div>
 
-                <div className="text-xs text-slate-200 whitespace-pre-wrap leading-relaxed font-sans bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                <div className="text-xs text-slate-800 dark:text-slate-200 whitespace-pre-wrap leading-relaxed font-sans bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
                   {note.summary}
                 </div>
-              </M3Card>
+              </Card>
             ))
           )}
         </div>
@@ -232,10 +232,10 @@ ${transcriptText}`,
       {/* Tab 3: BYOK Copilot */}
       {activeTab === 'assistant' && (
         <div className="flex flex-col gap-4">
-          <M3Card className="flex flex-col gap-3 min-h-96 justify-between">
+          <Card className="flex flex-col gap-3 min-h-96 justify-between">
             <div className="flex-1 overflow-y-auto flex flex-col gap-2.5 max-h-96 pr-1">
               {chatResponses.length === 0 ? (
-                <div className="text-center py-20 text-xs text-slate-500">
+                <div className="text-center py-20 text-xs text-slate-400 dark:text-slate-500">
                   Ask your configured AI model ({settings.provider}) to summarize files, translate chats, or draft code.
                 </div>
               ) : (
@@ -245,7 +245,7 @@ ${transcriptText}`,
                     className={`p-3 rounded-2xl text-xs leading-relaxed max-w-[85%] ${
                       msg.role === 'user'
                         ? 'bg-indigo-600 text-white self-end rounded-tr-xs shadow-sm'
-                        : 'bg-slate-900 border border-slate-800 text-slate-200 self-start rounded-tl-xs whitespace-pre-wrap'
+                        : 'bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 self-start rounded-tl-xs whitespace-pre-wrap'
                     }`}
                   >
                     {msg.text}
@@ -254,18 +254,18 @@ ${transcriptText}`,
               )}
             </div>
 
-            <form onSubmit={handleSendPrompt} className="pt-3 border-t border-slate-800 flex items-center gap-2">
-              <M3TextField
+            <form onSubmit={handleSendPrompt} className="pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center gap-2">
+              <Input
                 placeholder={`Ask ${settings.provider}...`}
                 value={promptInput}
                 onChange={(e) => setPromptInput(e.target.value)}
                 className="text-xs"
               />
-              <M3Button type="submit" variant="filled" size="md" disabled={!promptInput.trim() || isCopilotLoading}>
+              <Button type="submit" variant="primary" size="md" disabled={!promptInput.trim() || isCopilotLoading}>
                 <Send className="w-4 h-4" />
-              </M3Button>
+              </Button>
             </form>
-          </M3Card>
+          </Card>
         </div>
       )}
     </div>

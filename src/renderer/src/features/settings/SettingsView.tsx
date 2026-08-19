@@ -3,7 +3,7 @@ import { usePeerStore } from '../../stores/usePeerStore';
 import { useAIStore } from '../../stores/useAIStore';
 import { useSettingsStore } from '../../stores/useSettingsStore';
 import { useThemeStore } from '../../stores/useThemeStore';
-import { M3Button, M3Card, M3TextField, M3Switch, M3Badge, M3Tabs } from '../../components/ui/M3Components';
+import { Button, Card, Input, Switch, Badge, Tabs } from '../../components/ui';
 import { ReleaseService, AppVersionData, UpdateCheckResult } from '../../core/release/ReleaseService';
 import { ReleaseModal } from '../../components/release/ReleaseModal';
 import { Key, User, Globe, Save, Check, RefreshCw, Sparkles, Sun, Moon, Laptop, Palette } from 'lucide-react';
@@ -63,16 +63,16 @@ export function SettingsView() {
   const AVATARS = ['🚀', '⚡', '🦊', '🦅', '🌌', '💎', '🔥', '🛡️', '💻', '🤖', '🛸', '🎯'];
 
   return (
-    <div className="h-full w-full overflow-y-auto p-7 flex flex-col gap-6 max-w-4xl">
+    <div className="h-full w-full overflow-y-auto p-7 flex flex-col gap-6 max-w-4xl text-slate-900 dark:text-slate-100">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shrink-0">
         <div>
-          <h1 className="text-xl font-bold text-slate-100 tracking-tight">Settings & Preferences</h1>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <h1 className="text-xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">Settings & Preferences</h1>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
             Configure appearance, device profile, encrypted AI keyring, network, and updates.
           </p>
         </div>
 
-        <M3Tabs
+        <Tabs
           activeTab={activeTab}
           onChange={(tab: any) => setActiveTab(tab)}
           tabs={[
@@ -87,14 +87,14 @@ export function SettingsView() {
       {/* Tab 1: Profile & Storage */}
       {activeTab === 'profile' && (
         <div className="flex flex-col gap-6">
-          <M3Card className="flex flex-col gap-4">
-            <h3 className="font-semibold text-xs text-slate-300 uppercase tracking-wider flex items-center gap-2">
-              <User className="w-4 h-4 text-indigo-400" />
+          <Card className="flex flex-col gap-4">
+            <h3 className="font-semibold text-xs text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-2">
+              <User className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
               <span>Local Device Profile</span>
             </h3>
 
             <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-xl bg-slate-800 flex items-center justify-center text-2xl border border-slate-700/80 shrink-0">
+              <div className="w-14 h-14 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-2xl border border-slate-200 dark:border-slate-700/80 shrink-0">
                 {myAvatar}
               </div>
               <div className="flex flex-wrap gap-2">
@@ -102,8 +102,8 @@ export function SettingsView() {
                   <button
                     key={av}
                     onClick={() => setMyAvatar(av)}
-                    className={`w-8.5 h-8.5 rounded-xl flex items-center justify-center text-base transition-transform hover:scale-110 cursor-pointer ${
-                      myAvatar === av ? 'bg-indigo-600/30 border border-indigo-500 shadow-sm' : 'bg-slate-800/80 border border-slate-700/60'
+                    className={`w-9 h-9 rounded-xl flex items-center justify-center text-base transition-transform hover:scale-110 cursor-pointer ${
+                      myAvatar === av ? 'bg-indigo-600/20 border-2 border-indigo-500 shadow-sm' : 'bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60'
                     }`}
                   >
                     {av}
@@ -112,35 +112,35 @@ export function SettingsView() {
               </div>
             </div>
 
-            <M3TextField
+            <Input
               label="Device / User Nickname"
               value={localName}
               onChange={(e) => setLocalName(e.target.value)}
             />
-          </M3Card>
+          </Card>
 
-          <M3Card className="flex flex-col gap-4">
-            <h3 className="font-semibold text-xs text-slate-300 uppercase tracking-wider flex items-center gap-2">
-              <Globe className="w-4 h-4 text-indigo-400" />
+          <Card className="flex flex-col gap-4">
+            <h3 className="font-semibold text-xs text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-2">
+              <Globe className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
               <span>Network & Storage</span>
             </h3>
 
-            <M3TextField
+            <Input
               label="Default Download Directory"
               value={defaultDownloadDir}
               onChange={(e) => setDefaultDownloadDir(e.target.value)}
             />
-          </M3Card>
+          </Card>
 
           <div className="flex items-center justify-end gap-3 pt-2">
-            <M3Button
-              variant="filled"
+            <Button
+              variant="primary"
               size="md"
               icon={isSaved ? <Check className="w-4 h-4 text-emerald-300" /> : <Save className="w-4 h-4" />}
               onClick={handleSaveSettings}
             >
               {isSaved ? 'Settings Saved!' : 'Save Changes'}
-            </M3Button>
+            </Button>
           </div>
         </div>
       )}
@@ -148,16 +148,16 @@ export function SettingsView() {
       {/* Tab 2: Appearance & Theme Engine */}
       {activeTab === 'appearance' && (
         <div className="flex flex-col gap-6">
-          <M3Card className="flex flex-col gap-4">
+          <Card className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
-              <h3 className="font-semibold text-xs text-slate-300 uppercase tracking-wider flex items-center gap-2">
-                <Palette className="w-4 h-4 text-indigo-400" />
+              <h3 className="font-semibold text-xs text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                <Palette className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
                 <span>Centralized Theme & Visual Mode</span>
               </h3>
-              <M3Badge variant="primary">{theme.toUpperCase()}</M3Badge>
+              <Badge variant="primary">{theme.toUpperCase()}</Badge>
             </div>
 
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
               Choose your preferred visual theme. System mode automatically detects and adapts to your OS dark/light mode in real time.
             </p>
 
@@ -165,111 +165,111 @@ export function SettingsView() {
               {/* Dark Theme Card */}
               <div
                 onClick={() => setTheme('dark')}
-                className={`p-4 rounded-2xl border flex flex-col gap-3 cursor-pointer transition-all duration-150 ${
+                className={`p-4 rounded-3xl border flex flex-col gap-3 cursor-pointer transition-all duration-150 ${
                   theme === 'dark'
                     ? 'bg-indigo-600/15 border-indigo-500 shadow-md shadow-indigo-500/10 scale-[1.01]'
-                    : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'
+                    : 'bg-white dark:bg-slate-900/60 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-indigo-400">
+                  <div className="w-10 h-10 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-indigo-500 dark:text-indigo-400">
                     <Moon className="w-5 h-5" />
                   </div>
-                  {theme === 'dark' && <Check className="w-4 h-4 text-indigo-400" />}
+                  {theme === 'dark' && <Check className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />}
                 </div>
                 <div>
-                  <h4 className="font-bold text-xs text-slate-100">Dark Mode (Default)</h4>
-                  <p className="text-[11px] text-slate-400 mt-0.5">Deep slate backdrop with high-contrast glowing accents.</p>
+                  <h4 className="font-bold text-xs text-slate-900 dark:text-slate-100">Dark Mode (Default)</h4>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Deep slate backdrop with high-contrast glowing accents.</p>
                 </div>
               </div>
 
               {/* Light Theme Card */}
               <div
                 onClick={() => setTheme('light')}
-                className={`p-4 rounded-2xl border flex flex-col gap-3 cursor-pointer transition-all duration-150 ${
+                className={`p-4 rounded-3xl border flex flex-col gap-3 cursor-pointer transition-all duration-150 ${
                   theme === 'light'
                     ? 'bg-indigo-600/15 border-indigo-500 shadow-md shadow-indigo-500/10 scale-[1.01]'
-                    : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'
+                    : 'bg-white dark:bg-slate-900/60 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-amber-400">
+                  <div className="w-10 h-10 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-amber-500">
                     <Sun className="w-5 h-5" />
                   </div>
-                  {theme === 'light' && <Check className="w-4 h-4 text-indigo-400" />}
+                  {theme === 'light' && <Check className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />}
                 </div>
                 <div>
-                  <h4 className="font-bold text-xs text-slate-100">Light Mode</h4>
-                  <p className="text-[11px] text-slate-400 mt-0.5">Crisp, clean surface with optimal readability in daylight.</p>
+                  <h4 className="font-bold text-xs text-slate-900 dark:text-slate-100">Light Mode</h4>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Crisp, clean surface with optimal readability in daylight.</p>
                 </div>
               </div>
 
               {/* System Auto Theme Card */}
               <div
                 onClick={() => setTheme('system')}
-                className={`p-4 rounded-2xl border flex flex-col gap-3 cursor-pointer transition-all duration-150 ${
+                className={`p-4 rounded-3xl border flex flex-col gap-3 cursor-pointer transition-all duration-150 ${
                   theme === 'system'
                     ? 'bg-indigo-600/15 border-indigo-500 shadow-md shadow-indigo-500/10 scale-[1.01]'
-                    : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'
+                    : 'bg-white dark:bg-slate-900/60 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-cyan-400">
+                  <div className="w-10 h-10 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-cyan-500">
                     <Laptop className="w-5 h-5" />
                   </div>
-                  {theme === 'system' && <Check className="w-4 h-4 text-indigo-400" />}
+                  {theme === 'system' && <Check className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />}
                 </div>
                 <div>
-                  <h4 className="font-bold text-xs text-slate-100">System Sync</h4>
-                  <p className="text-[11px] text-slate-400 mt-0.5">Automatically syncs with macOS / Windows system preferences.</p>
+                  <h4 className="font-bold text-xs text-slate-900 dark:text-slate-100">System Sync</h4>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Automatically syncs with macOS / Windows system preferences.</p>
                 </div>
               </div>
             </div>
-          </M3Card>
+          </Card>
         </div>
       )}
 
       {/* Tab 3: BYOK Vault */}
       {activeTab === 'ai-vault' && (
         <div className="flex flex-col gap-6">
-          <M3Card className="flex flex-col gap-4">
+          <Card className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
-              <h3 className="font-semibold text-xs text-slate-300 uppercase tracking-wider flex items-center gap-2">
-                <Key className="w-4 h-4 text-amber-400" />
+              <h3 className="font-semibold text-xs text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                <Key className="w-4 h-4 text-amber-500 dark:text-amber-400" />
                 <span>Encrypted AI Keyring (BYOK)</span>
               </h3>
-              <M3Badge variant="success">OS SafeStorage Encrypted</M3Badge>
+              <Badge variant="success">OS SafeStorage Encrypted</Badge>
             </div>
 
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
               Your API keys are encrypted locally using macOS Keychain / Windows DPAPI / Linux Secret Service. Zero keys are ever sent to our servers.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">AI Provider</label>
+                <label className="text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">AI Provider</label>
                 <select
                   value={settings.provider}
                   onChange={(e) => updateSettings({ provider: e.target.value as any })}
-                  className="bg-slate-900 border border-slate-800 rounded-xl px-3.5 h-10 text-xs text-slate-100 focus:outline-none focus:border-indigo-500"
+                  className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-2xl px-3.5 h-10 text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:border-indigo-500"
                 >
-                  <option value="ollama">100% Local Offline Ollama (Free)</option>
-                  <option value="gemini">Google Gemini (Gemini 2.0 / 1.5 Pro)</option>
-                  <option value="claude">Anthropic Claude (3.5 Sonnet)</option>
-                  <option value="openai">OpenAI (GPT-4o / GPT-4o-mini)</option>
-                  <option value="groq">Groq (Ultra-Fast Llama 3.3)</option>
+                  <option value="ollama" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">100% Local Offline Ollama (Free)</option>
+                  <option value="gemini" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">Google Gemini (Gemini 2.0 / 1.5 Pro)</option>
+                  <option value="claude" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">Anthropic Claude (3.5 Sonnet)</option>
+                  <option value="openai" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">OpenAI (GPT-4o / GPT-4o-mini)</option>
+                  <option value="groq" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">Groq (Ultra-Fast Llama 3.3)</option>
                 </select>
               </div>
 
               {settings.provider === 'ollama' ? (
-                <M3TextField
+                <Input
                   label="Ollama Server URL"
                   value={settings.ollamaUrl}
                   onChange={(e) => updateSettings({ ollamaUrl: e.target.value })}
                   placeholder="http://localhost:11434"
                 />
               ) : (
-                <M3TextField
+                <Input
                   label={`${settings.provider.toUpperCase()} API Key`}
                   type="password"
                   value={apiKeyInput}
@@ -279,23 +279,23 @@ export function SettingsView() {
               )}
             </div>
 
-            <M3Switch
+            <Switch
               checked={settings.enablePreFlightSanitizer}
               onChange={(checked) => updateSettings({ enablePreFlightSanitizer: checked })}
               label="Pre-Flight Sanitizer Shield"
               description="Automatically scan folders before sending to prevent leaking .env secrets or credentials"
             />
-          </M3Card>
+          </Card>
 
           <div className="flex items-center justify-end gap-3 pt-2">
-            <M3Button
-              variant="filled"
+            <Button
+              variant="primary"
               size="md"
               icon={isSaved ? <Check className="w-4 h-4 text-emerald-300" /> : <Save className="w-4 h-4" />}
               onClick={handleSaveSettings}
             >
               {isSaved ? 'Settings Saved!' : 'Save Keyring'}
-            </M3Button>
+            </Button>
           </div>
         </div>
       )}
@@ -303,68 +303,68 @@ export function SettingsView() {
       {/* Tab 4: Versioning & Releases */}
       {activeTab === 'version' && (
         <div className="flex flex-col gap-6">
-          <M3Card className="flex flex-col gap-4">
+          <Card className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 font-extrabold text-lg border border-indigo-500/20">
+                <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-extrabold text-lg border border-indigo-500/20">
                   v2
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm text-slate-100">ZeroHop Desktop</h3>
-                  <div className="flex items-center gap-2 text-xs text-slate-400 mt-0.5">
+                  <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100">ZeroHop Desktop</h3>
+                  <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                     <span>Version {versionInfo?.version || '2.0.0'}</span>
                     <span>•</span>
-                    <M3Badge variant="success">{versionInfo?.channel || 'Stable'}</M3Badge>
+                    <Badge variant="success">{versionInfo?.channel || 'Stable'}</Badge>
                   </div>
                 </div>
               </div>
 
-              <M3Button
-                variant="filled"
+              <Button
+                variant="primary"
                 size="sm"
                 icon={<RefreshCw className={`w-3.5 h-3.5 ${isCheckingUpdate ? 'animate-spin' : ''}`} />}
                 disabled={isCheckingUpdate}
                 onClick={handleCheckUpdates}
               >
                 {isCheckingUpdate ? 'Checking...' : 'Check for Updates'}
-              </M3Button>
+              </Button>
             </div>
 
             {/* Architecture Info Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 border-t border-slate-800">
-              <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-xs flex flex-col gap-1">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 border-t border-slate-200 dark:border-slate-800">
+              <div className="p-3 rounded-2xl bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-xs flex flex-col gap-1">
                 <span className="text-[10px] text-slate-500 font-semibold uppercase">Platform</span>
-                <span className="font-semibold text-slate-200">{versionInfo?.platform || 'Darwin'} ({versionInfo?.arch || 'arm64'})</span>
+                <span className="font-semibold text-slate-800 dark:text-slate-200">{versionInfo?.platform || 'Darwin'} ({versionInfo?.arch || 'arm64'})</span>
               </div>
-              <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-xs flex flex-col gap-1">
+              <div className="p-3 rounded-2xl bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-xs flex flex-col gap-1">
                 <span className="text-[10px] text-slate-500 font-semibold uppercase">Electron</span>
-                <span className="font-semibold text-slate-200">v{versionInfo?.electronVersion || '34.2.0'}</span>
+                <span className="font-semibold text-slate-800 dark:text-slate-200">v{versionInfo?.electronVersion || '34.2.0'}</span>
               </div>
-              <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-xs flex flex-col gap-1">
+              <div className="p-3 rounded-2xl bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-xs flex flex-col gap-1">
                 <span className="text-[10px] text-slate-500 font-semibold uppercase">Node.js</span>
-                <span className="font-semibold text-slate-200">v{versionInfo?.nodeVersion || '22.13.4'}</span>
+                <span className="font-semibold text-slate-800 dark:text-slate-200">v{versionInfo?.nodeVersion || '22.13.4'}</span>
               </div>
-              <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-xs flex flex-col gap-1">
+              <div className="p-3 rounded-2xl bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-xs flex flex-col gap-1">
                 <span className="text-[10px] text-slate-500 font-semibold uppercase">Release Channel</span>
-                <span className="font-semibold text-indigo-300">Production</span>
+                <span className="font-semibold text-indigo-600 dark:text-indigo-300">Production</span>
               </div>
             </div>
-          </M3Card>
+          </Card>
 
           {/* Release Highlights */}
-          <M3Card className="flex flex-col gap-3">
-            <h4 className="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-amber-400" />
+          <Card className="flex flex-col gap-3">
+            <h4 className="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-amber-500 dark:text-amber-400" />
               <span>Version 2.0.0 Highlights</span>
             </h4>
-            <div className="text-xs text-slate-300 leading-relaxed font-sans bg-slate-900/70 p-4 rounded-xl border border-slate-800 space-y-2">
+            <div className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-sans bg-slate-100 dark:bg-slate-900/70 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-2">
               <p>✨ <strong>Complete React 19 + Electron 34 Architecture:</strong> Ultra-fast Vite 6 bundling, 0 legacy code.</p>
               <p>🎨 <strong>Centralized Theme System:</strong> Instant switching across Dark, Light, and System OS sync.</p>
               <p>⚡ <strong>Zero-Install Web Guest Bridge:</strong> Share files and screens with iOS/Android via local QR codes.</p>
               <p>🖥️ <strong>60 FPS Hardware Remote Desktop:</strong> Sub-pixel Retina/DPI scaling and Privacy Shield.</p>
               <p>🤖 <strong>Dual-Mode AI:</strong> 100% Offline Local Whisper speech transcription + BYOK multi-provider vault.</p>
             </div>
-          </M3Card>
+          </Card>
         </div>
       )}
 
