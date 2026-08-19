@@ -13,7 +13,15 @@
 
 <br/>
 
-![InstaShare Next Live Demo](docs/screenshots/demo.gif)
+### 🎥 Watch Live Product Demo (Interactive Wire-Speed File Transfer & Calling)
+
+https://github.com/user-attachments/assets/demo.mp4
+
+*(Click above or play [`docs/videos/demo.mp4`](docs/videos/demo.mp4) locally)*
+
+<video src="docs/videos/demo.mp4" controls="controls" width="100%" poster="docs/screenshots/dashboard.png">
+  Your browser does not support the video tag. Watch <a href="docs/videos/demo.mp4">docs/videos/demo.mp4</a> directly.
+</video>
 
 <br/>
 
@@ -35,7 +43,7 @@ Today's remote collaboration tools are fragmented, bloated with SaaS subscriptio
 
 ---
 
-## 📸 Product Walkthrough & Real Screenshots
+## 📸 Product Walkthrough & Screenshots
 
 <table align="center" width="100%">
   <tr>
@@ -187,11 +195,6 @@ npm run release:win      # Windows NSIS Installer (.exe)
 npm run release:linux    # Linux AppImage & Debian package
 npm run release:all      # Build all targets simultaneously
 ```
-
----
-
-## 📜 Historical Codebase
-The legacy Angular 12 / RobotJS codebase has been archived in [`archive/legacy-angular-v1/`](./archive/legacy-angular-v1/LEGACY_README.md).
 
 ---
 
