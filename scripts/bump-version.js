@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Version Bumper & Release Orchestrator for InstaShare Next
+ * Version Bumper & Release Orchestrator for ZeroHop
  * Usage: node scripts/bump-version.js [patch|minor|major|<version>]
  */
 
@@ -32,7 +32,7 @@ function calculateNextVersion(current, bumpType) {
 
 const nextVersion = calculateNextVersion(currentVersion, target);
 
-console.log(`🚀 Bumping InstaShare Next from v${currentVersion} -> v${nextVersion}`);
+console.log(`🚀 Bumping ZeroHop from v${currentVersion} -> v${nextVersion}`);
 
 // Update package.json
 pkg.version = nextVersion;
@@ -51,7 +51,7 @@ let changelogContent = '';
 if (fs.existsSync(changelogPath)) {
   changelogContent = fs.readFileSync(changelogPath, 'utf8');
 } else {
-  changelogContent = '# Changelog - InstaShare Next\n';
+  changelogContent = '# Changelog - ZeroHop\n';
 }
 
 fs.writeFileSync(changelogPath, changelogContent + changelogEntry);

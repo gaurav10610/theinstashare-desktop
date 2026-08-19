@@ -1,13 +1,13 @@
 <div align="center">
 
-# ⚡ InstaShare Next (v2.0)
+# ⚡ ZeroHop (v2.0)
 
 ### *The 100% Free & Open-Source, Zero-Cloud P2P Desktop Suite*
 **Wire-Speed File Transfers • 60 FPS Remote Desktop • Encrypted Calls • P2P Terminal Pairing • 100% Offline Whisper AI**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-indigo.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
-[![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%20%7C%20Linux-blue.svg?style=for-the-badge)](https://github.com/gaurav10610/theinstashare-desktop)
-[![Build Status](https://img.shields.io/badge/Tests-54%2F54%20Passing-emerald.svg?style=for-the-badge)](https://github.com/gaurav10610/theinstashare-desktop)
+[![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%20%7C%20Linux-blue.svg?style=for-the-badge)](https://github.com/gaurav10610/zerohop-desktop)
+[![Build Status](https://img.shields.io/badge/Tests-57%2F57%20Passing-emerald.svg?style=for-the-badge)](https://github.com/gaurav10610/zerohop-desktop)
 [![Electron](https://img.shields.io/badge/Electron-34.x-61dafb.svg?style=for-the-badge)](https://www.electronjs.org/)
 [![React](https://img.shields.io/badge/React-19.x-61dafb.svg?style=for-the-badge)](https://react.dev/)
 
@@ -25,15 +25,15 @@ https://github.com/user-attachments/assets/demo.mp4
 
 <br/>
 
-[**Download Latest Release**](https://github.com/gaurav10610/theinstashare-desktop/releases) • [**Features**](#-killer-features) • [**Comparison Matrix**](#-how-instashare-next-compares) • [**Quick Start**](#-quick-start--development)
+[**Download Latest Release**](https://github.com/gaurav10610/zerohop-desktop/releases) • [**Feature Matrix**](#-comprehensive-feature--capabilities-matrix) • [**Features**](#-killer-features) • [**Quick Start**](#-quick-start--development)
 
 </div>
 
 ---
 
-## 🎯 Why InstaShare Next?
+## 🎯 Why ZeroHop?
 
-Today's remote collaboration tools are fragmented, bloated with SaaS subscriptions, and siphon your private data to cloud servers. **InstaShare Next** unifies everything you need into a single, ultra-lightweight, native desktop application that runs **100% peer-to-peer directly between your devices**:
+Today's remote collaboration tools are fragmented, bloated with SaaS subscriptions, and siphon your private data to cloud servers. **ZeroHop** unifies everything you need into a single, ultra-lightweight, native desktop application that runs **100% peer-to-peer directly between your devices**:
 
 - 🚫 **Zero Subscriptions & Zero Cloud Telemetry:** No servers storing your files, video calls, or keystrokes.
 - ⚡ **Wire-Speed Line Rate:** Automatically routes transfers across local LAN/Wi-Fi sockets up to **10 Gbps**.
@@ -92,22 +92,23 @@ Today's remote collaboration tools are fragmented, bloated with SaaS subscriptio
 
 ---
 
-## 📊 How InstaShare Next Compares
+## 📊 Comprehensive Feature & Capabilities Matrix
 
-| Feature | **InstaShare Next** ⚡ | LocalSend | RustDesk | Snapdrop | AirDrop | AnyDesk |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **License & Price** | **100% Free & Open Source** | Open Source | Open Core | Open Source | Proprietary | Paid SaaS ($14.90+/mo) |
-| **Cross-Platform** | **macOS, Windows, Linux, Mobile** | macOS, Win, Linux, Mobile | macOS, Win, Linux, Mobile | Web Browser Only | Apple Devices Only | macOS, Win, Linux, Mobile |
-| **Zero-Install Web Guest QR** | ✅ **Yes (Built-in)** | ❌ No | ❌ No | ✅ Yes (WebRTC) | ❌ No | ❌ No |
-| **Unlimited Zero-RAM Streaming** | ✅ **Yes (BLAKE3 Stream)** | ⚠️ Memory-buffered | ❌ No | ⚠️ Browser RAM limit | ✅ Yes | ❌ No |
-| **60 FPS Hardware Remote Desktop**| ✅ **Yes (@nut-tree N-API)**| ❌ No | ✅ Yes | ❌ No | ❌ No | ✅ Yes |
-| **Collaborative P2P Terminal (PTY)**| ✅ **Yes (xterm + pty)** | ❌ No | ⚠️ Basic CLI | ❌ No | ❌ No | ❌ No |
-| **1:1 Encrypted Audio/Video Calling**| ✅ **Yes (Opus/VP9 E2EE)** | ❌ No | ❌ No | ❌ No | ⚠️ FaceTime only | ⚠️ Audio only |
-| **Live Screen Annotation & Laser**| ✅ **Yes (Real-time Canvas)**| ❌ No | ⚠️ Basic whitebd | ❌ No | ❌ No | ✅ Yes |
-| **Ad-Hoc Live Synced Folders** | ✅ **Yes (chokidar delta)** | ❌ No | ❌ No | ❌ No | ❌ No | ❌ No |
-| **100% Offline AI Transcriber** | ✅ **Yes (Whisper ONNX)** | ❌ No | ❌ No | ❌ No | ❌ No | ❌ No |
-| **Pre-Flight Security Sanitizer** | ✅ **Yes (.env Leak Shield)**| ❌ No | ❌ No | ❌ No | ❌ No | ❌ No |
-| **Memory Footprint at Idle** | **$< 80\text{ MB}$** | $\approx 90\text{ MB}$ | $\approx 150\text{ MB}$ | $\approx 120\text{ MB}$ | OS Integrated | $\approx 220\text{ MB}$ |
+| Feature Module | Underlying Technology | Performance & Specifications | Security & Privacy Guarantee |
+| :--- | :--- | :--- | :--- |
+| **LAN Wire-Speed Discovery** | UDP Multicast (`239.255.255.250`) & mDNS | Sub-millisecond peer discovery; up to 10 Gbps LAN speeds | 100% Local Subnet; 0 Cloud Servers |
+| **Zero-Install Web Guest Bridge** | Ephemeral Node.js HTTP/WS + High-Density QR | Direct browser & mobile phone upload/download portal | Zero App Install; Ephemeral Port Isolation |
+| **Zero-RAM Hyper-Stream Files** | BLAKE3 Hash Chunks + WebRTC DataChannels | 64KB chunk backpressure streams; flat $<100\text{ MB}$ RAM | End-to-End Encrypted (DTLS/SCTP) |
+| **Live P2P Folder Mirror** | Delta streaming via `chokidar` | Two-way directory watcher with automatic sync | Local Direct P2P; Never Stored in Cloud |
+| **Pre-Flight Security Sanitizer** | Regex pattern secret detector | Scans `.env`, API keys (`sk-`, `ghp_`, `AKIA`), PEM certs | Blocks accidental credential leaks |
+| **60 FPS Hardware Remote Desktop** | `@nut-tree/nut-js` N-API Input Engine | Sub-pixel Retina/4K DPI coordinate mapping | Privacy Shield sensitive window masking |
+| **P2P Interactive Terminal (PTY)** | `node-pty` + `xterm.js` | Collaborative real-time shell pairing over WebRTC | DataChannel encrypted raw PTY stream |
+| **1:1 Encrypted Audio/Video Calls**| WebRTC Opus (48kHz) + VP9 / AV1 Video | Hardware video acceleration + System Sound Loopback | DTLS-SRTP 256-bit End-to-End Encryption |
+| **Live Screen Markup & Laser** | High-performance HTML5 Canvas overlay | Real-time transparent pen, shapes, and laser pointer | Synchronized locally via DataChannels |
+| **100% Local Offline AI Whisper** | `@xenova/transformers` (Whisper ONNX WebGPU) | Real-time speech transcription & meeting minutes | 100% On-Device GPU/CPU; 0 Cloud API Keys |
+| **Encrypted BYOK AI Keyring** | OS `safeStorage` (Keychain / DPAPI / SecretService)| BYOK vault for Gemini, Claude, OpenAI, Groq, Ollama | OS-level hardware-backed key encryption |
+| **Centralized Theme Engine** | Material Design 3 (M3) CSS Custom Properties | Instant dark, light, and OS system appearance sync | 100% Zero-Runtime CSS tokens |
+| **Footprint & Memory Efficiency**| Vite 6 tree-shaken React 19 + Electron 34 | $< 80\text{ MB}$ idle RAM; $< 65\text{ MB}$ packaged binary | Ultra-lightweight native performance |
 
 ---
 
@@ -153,7 +154,7 @@ Today's remote collaboration tools are fragmented, bloated with SaaS subscriptio
 ├── Input & Terminal: @nut-tree-fork/nut-js + node-pty + xterm.js
 ├── Local Speech AI: @xenova/transformers (Whisper ONNX WebGPU)
 ├── Cryptography: @noble/hashes (BLAKE3 & SHA-256)
-└── Test Engine: Vitest 4.x (54 Automated Tests across 15 Suites)
+└── Test Engine: Vitest 4.x (57 Automated Tests across 16 Suites)
 ```
 
 ---
@@ -166,8 +167,8 @@ Today's remote collaboration tools are fragmented, bloated with SaaS subscriptio
 
 ### 1. Clone & Install
 ```bash
-git clone https://github.com/gaurav10610/theinstashare-desktop.git
-cd theinstashare-desktop
+git clone https://github.com/gaurav10610/zerohop-desktop.git
+cd zerohop-desktop
 npm install --legacy-peer-deps
 ```
 
@@ -184,7 +185,7 @@ npm run dev
 ### 4. Run Test Suite & Typecheck
 ```bash
 npm run typecheck   # Strict TypeScript checks across Node & Web
-npm test            # Runs full 54-test automated suite
+npm test            # Runs full 57-test automated suite
 ```
 
 ### 5. Build Local Release Binaries (100% Offline)

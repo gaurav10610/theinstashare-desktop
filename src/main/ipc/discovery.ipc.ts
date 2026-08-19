@@ -52,7 +52,7 @@ export function registerDiscoveryIPC(): void {
       socket.on('message', (msg, rinfo) => {
         try {
           const data = JSON.parse(msg.toString('utf-8'));
-          if (data.type === 'INSTASHARE_ANNOUNCE' && data.peer) {
+          if (data.type === 'ZEROHOP_ANNOUNCE' && data.peer) {
             // Ignore self announcements
             if (data.peer.id === localPeerInfo?.id) return;
 
@@ -87,7 +87,7 @@ export function registerDiscoveryIPC(): void {
         try {
           const payload = Buffer.from(
             JSON.stringify({
-              type: 'INSTASHARE_ANNOUNCE',
+              type: 'ZEROHOP_ANNOUNCE',
               peer: localPeerInfo,
               timestamp: Date.now()
             })

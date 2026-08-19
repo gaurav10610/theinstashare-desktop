@@ -5,23 +5,58 @@
     --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
 
-    /* Material Design 3 Elevation & Tokens */
+    /* Base Palette (Defaults to Dark) */
     --m3-surface: #090d16;
     --m3-surface-container: #0f172a;
     --m3-surface-container-high: #1e293b;
     --m3-surface-container-highest: #334155;
+    --m3-text-primary: #f1f5f9;
+    --m3-text-secondary: #94a3b8;
+    --m3-text-muted: #64748b;
     --m3-primary: #6366f1;
     --m3-primary-container: rgba(99, 102, 241, 0.15);
     --m3-on-primary-container: #c7d2fe;
     --m3-secondary: #06b6d4;
     --m3-tertiary: #10b981;
     --m3-error: #ef4444;
+    --m3-border: rgba(255, 255, 255, 0.08);
+    --m3-glass-bg: rgba(15, 23, 42, 0.75);
+    --m3-glass-elevated-bg: rgba(30, 41, 59, 0.9);
+  }
+
+  /* Explicit Dark Theme */
+  :root.dark, [data-theme="dark"] {
+    --m3-surface: #090d16;
+    --m3-surface-container: #0f172a;
+    --m3-surface-container-high: #1e293b;
+    --m3-surface-container-highest: #334155;
+    --m3-text-primary: #f1f5f9;
+    --m3-text-secondary: #94a3b8;
+    --m3-text-muted: #64748b;
+    --m3-border: rgba(255, 255, 255, 0.08);
+    --m3-glass-bg: rgba(15, 23, 42, 0.75);
+    --m3-glass-elevated-bg: rgba(30, 41, 59, 0.9);
+  }
+
+  /* Light Theme */
+  :root.light, [data-theme="light"] {
+    --m3-surface: #f8fafc;
+    --m3-surface-container: #ffffff;
+    --m3-surface-container-high: #f1f5f9;
+    --m3-surface-container-highest: #e2e8f0;
+    --m3-text-primary: #0f172a;
+    --m3-text-secondary: #475569;
+    --m3-text-muted: #94a3b8;
+    --m3-border: rgba(0, 0, 0, 0.08);
+    --m3-glass-bg: rgba(255, 255, 255, 0.85);
+    --m3-glass-elevated-bg: rgba(255, 255, 255, 0.95);
   }
 
   body {
     font-family: var(--font-sans);
     background-color: var(--m3-surface);
-    color: #f1f5f9;
+    color: var(--m3-text-primary);
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
 
   code, pre {
@@ -38,27 +73,27 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(150, 150, 150, 0.2);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(150, 150, 150, 0.35);
 }
 
 /* Glassmorphism & Surface Elevation */
 .glass-panel {
-  background: rgba(15, 23, 42, 0.75);
+  background: var(--m3-glass-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--m3-border);
 }
 
 .glass-panel-elevated {
-  background: rgba(30, 41, 59, 0.9);
+  background: var(--m3-glass-elevated-bg);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--m3-border);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.15);
 }
 
 @keyframes pulse-slow {

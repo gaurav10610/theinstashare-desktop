@@ -1,7 +1,7 @@
 {
-  "name": "theinstashare-desktop",
+  "name": "zerohop-desktop",
   "version": "2.0.0",
-  "description": "InstaShare Next - Ultra-lightweight, cross-platform P2P file transfer, encrypted audio/video calling, remote control, and AI-native desktop suite",
+  "description": "ZeroHop - 100% Free & Open-Source Zero-Cloud P2P Desktop Suite: Wire-speed file transfers, 60 FPS remote desktop, encrypted calls, collaborative terminal, and local offline Whisper AI",
   "author": {
     "name": "Gaurav Kumar Yadav",
     "email": "gaurav10610@gmail.com"

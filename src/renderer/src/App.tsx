@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { usePeerStore } from './stores/usePeerStore';
+import { useThemeStore } from './stores/useThemeStore';
 import { AppLayout } from './components/layout/AppLayout';
 import { DashboardView } from './features/dashboard/DashboardView';
 import { TalkView } from './features/talk/TalkView';
@@ -11,10 +12,12 @@ import { SettingsView } from './features/settings/SettingsView';
 
 export function App() {
   const { activeTab, initFromAppArgs } = usePeerStore();
+  const { initTheme } = useThemeStore();
 
   useEffect(() => {
+    initTheme();
     initFromAppArgs();
-  }, [initFromAppArgs]);
+  }, [initTheme, initFromAppArgs]);
 
   const renderActiveView = () => {
     switch (activeTab) {

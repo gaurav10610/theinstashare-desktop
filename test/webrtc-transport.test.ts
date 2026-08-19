@@ -47,7 +47,7 @@ describe('WebRTC 2.0 Transport & Signaling Exhaustive Suite', () => {
       {
         iceServers: [
           { urls: 'stun:stun.l.google.com:19302' },
-          { urls: 'turn:turn.instashare.io:3478', username: 'user', credential: 'password' }
+          { urls: 'turn:turn.zerohop.dev:3478', username: 'user', credential: 'password' }
         ]
       }
     );

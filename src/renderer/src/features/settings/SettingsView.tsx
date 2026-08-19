@@ -2,17 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { usePeerStore } from '../../stores/usePeerStore';
 import { useAIStore } from '../../stores/useAIStore';
 import { useSettingsStore } from '../../stores/useSettingsStore';
+import { useThemeStore } from '../../stores/useThemeStore';
 import { M3Button, M3Card, M3TextField, M3Switch, M3Badge, M3Tabs } from '../../components/ui/M3Components';
 import { ReleaseService, AppVersionData, UpdateCheckResult } from '../../core/release/ReleaseService';
 import { ReleaseModal } from '../../components/release/ReleaseModal';
-import { Key, User, Globe, Save, Check, RefreshCw, Sparkles, Tag, GitCommit, Cpu } from 'lucide-react';
+import { Key, User, Globe, Save, Check, RefreshCw, Sparkles, Sun, Moon, Laptop, Palette } from 'lucide-react';
 
 export function SettingsView() {
   const { myName, myAvatar, setMyName, setMyAvatar } = usePeerStore();
   const { settings, updateSettings } = useAIStore();
   const { defaultDownloadDir, setDefaultDownloadDir } = useSettingsStore();
+  const { theme, setTheme } = useThemeStore();
 
-  const [activeTab, setActiveTab] = useState<'profile' | 'ai-vault' | 'version'>('profile');
+  const [activeTab, setActiveTab] = useState<'profile' | 'appearance' | 'ai-vault' | 'version'>('profile');
   const [localName, setLocalName] = useState(myName);
   const [apiKeyInput, setApiKeyInput] = useState('');
   const [isSaved, setIsSaved] = useState(false);
@@ -64,9 +66,9 @@ export function SettingsView() {
     <div className="h-full w-full overflow-y-auto p-7 flex flex-col gap-6 max-w-4xl">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shrink-0">
         <div>
-          <h1 className="text-xl font-bold text-slate-100 tracking-tight">Settings & System</h1>
+          <h1 className="text-xl font-bold text-slate-100 tracking-tight">Settings & Preferences</h1>
           <p className="text-xs text-slate-400 mt-0.5">
-            Configure local device identity, encrypted BYOK AI keys, network, and app updates.
+            Configure appearance, device profile, encrypted AI keyring, network, and updates.
           </p>
         </div>
 
@@ -74,9 +76,10 @@ export function SettingsView() {
           activeTab={activeTab}
           onChange={(tab: any) => setActiveTab(tab)}
           tabs={[
-            { id: 'profile', label: 'Device Profile' },
+            { id: 'profile', label: 'Profile' },
+            { id: 'appearance', label: 'Appearance' },
             { id: 'ai-vault', label: 'BYOK Vault' },
-            { id: 'version', label: 'Version & Releases' }
+            { id: 'version', label: 'Version' }
           ]}
         />
       </div>
@@ -142,7 +145,91 @@ export function SettingsView() {
         </div>
       )}
 
-      {/* Tab 2: BYOK Vault */}
+      {/* Tab 2: Appearance & Theme Engine */}
+      {activeTab === 'appearance' && (
+        <div className="flex flex-col gap-6">
+          <M3Card className="flex flex-col gap-4">
+            <div className="flex items-center justify-between">
+              <h3 className="font-semibold text-xs text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                <Palette className="w-4 h-4 text-indigo-400" />
+                <span>Centralized Theme & Visual Mode</span>
+              </h3>
+              <M3Badge variant="primary">{theme.toUpperCase()}</M3Badge>
+            </div>
+
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Choose your preferred visual theme. System mode automatically detects and adapts to your OS dark/light mode in real time.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-1">
+              {/* Dark Theme Card */}
+              <div
+                onClick={() => setTheme('dark')}
+                className={`p-4 rounded-2xl border flex flex-col gap-3 cursor-pointer transition-all duration-150 ${
+                  theme === 'dark'
+                    ? 'bg-indigo-600/15 border-indigo-500 shadow-md shadow-indigo-500/10 scale-[1.01]'
+                    : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-indigo-400">
+                    <Moon className="w-5 h-5" />
+                  </div>
+                  {theme === 'dark' && <Check className="w-4 h-4 text-indigo-400" />}
+                </div>
+                <div>
+                  <h4 className="font-bold text-xs text-slate-100">Dark Mode (Default)</h4>
+                  <p className="text-[11px] text-slate-400 mt-0.5">Deep slate backdrop with high-contrast glowing accents.</p>
+                </div>
+              </div>
+
+              {/* Light Theme Card */}
+              <div
+                onClick={() => setTheme('light')}
+                className={`p-4 rounded-2xl border flex flex-col gap-3 cursor-pointer transition-all duration-150 ${
+                  theme === 'light'
+                    ? 'bg-indigo-600/15 border-indigo-500 shadow-md shadow-indigo-500/10 scale-[1.01]'
+                    : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-amber-400">
+                    <Sun className="w-5 h-5" />
+                  </div>
+                  {theme === 'light' && <Check className="w-4 h-4 text-indigo-400" />}
+                </div>
+                <div>
+                  <h4 className="font-bold text-xs text-slate-100">Light Mode</h4>
+                  <p className="text-[11px] text-slate-400 mt-0.5">Crisp, clean surface with optimal readability in daylight.</p>
+                </div>
+              </div>
+
+              {/* System Auto Theme Card */}
+              <div
+                onClick={() => setTheme('system')}
+                className={`p-4 rounded-2xl border flex flex-col gap-3 cursor-pointer transition-all duration-150 ${
+                  theme === 'system'
+                    ? 'bg-indigo-600/15 border-indigo-500 shadow-md shadow-indigo-500/10 scale-[1.01]'
+                    : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-cyan-400">
+                    <Laptop className="w-5 h-5" />
+                  </div>
+                  {theme === 'system' && <Check className="w-4 h-4 text-indigo-400" />}
+                </div>
+                <div>
+                  <h4 className="font-bold text-xs text-slate-100">System Sync</h4>
+                  <p className="text-[11px] text-slate-400 mt-0.5">Automatically syncs with macOS / Windows system preferences.</p>
+                </div>
+              </div>
+            </div>
+          </M3Card>
+        </div>
+      )}
+
+      {/* Tab 3: BYOK Vault */}
       {activeTab === 'ai-vault' && (
         <div className="flex flex-col gap-6">
           <M3Card className="flex flex-col gap-4">
@@ -213,7 +300,7 @@ export function SettingsView() {
         </div>
       )}
 
-      {/* Tab 3: Versioning & Releases */}
+      {/* Tab 4: Versioning & Releases */}
       {activeTab === 'version' && (
         <div className="flex flex-col gap-6">
           <M3Card className="flex flex-col gap-4">
@@ -223,7 +310,7 @@ export function SettingsView() {
                   v2
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm text-slate-100">InstaShare Next Desktop</h3>
+                  <h3 className="font-bold text-sm text-slate-100">ZeroHop Desktop</h3>
                   <div className="flex items-center gap-2 text-xs text-slate-400 mt-0.5">
                     <span>Version {versionInfo?.version || '2.0.0'}</span>
                     <span>•</span>
@@ -264,18 +351,18 @@ export function SettingsView() {
             </div>
           </M3Card>
 
-          {/* Release Notes Preview */}
+          {/* Release Highlights */}
           <M3Card className="flex flex-col gap-3">
             <h4 className="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-amber-400" />
               <span>Version 2.0.0 Highlights</span>
             </h4>
             <div className="text-xs text-slate-300 leading-relaxed font-sans bg-slate-900/70 p-4 rounded-xl border border-slate-800 space-y-2">
-              <p>✨ <strong>Complete React 19 + Electron 34 Rewrite:</strong> Zero legacy Angular code, instantaneous Vite 6 bundling.</p>
+              <p>✨ <strong>Complete React 19 + Electron 34 Architecture:</strong> Ultra-fast Vite 6 bundling, 0 legacy code.</p>
+              <p>🎨 <strong>Centralized Theme System:</strong> Instant switching across Dark, Light, and System OS sync.</p>
               <p>⚡ <strong>Zero-Install Web Guest Bridge:</strong> Share files and screens with iOS/Android via local QR codes.</p>
               <p>🖥️ <strong>60 FPS Hardware Remote Desktop:</strong> Sub-pixel Retina/DPI scaling and Privacy Shield.</p>
               <p>🤖 <strong>Dual-Mode AI:</strong> 100% Offline Local Whisper speech transcription + BYOK multi-provider vault.</p>
-              <p>🔒 <strong>BLAKE3 Chunk Healing:</strong> Stream multi-gigabyte transfers with zero RAM footprint.</p>
             </div>
           </M3Card>
         </div>

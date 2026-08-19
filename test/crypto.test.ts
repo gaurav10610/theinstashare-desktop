@@ -3,7 +3,7 @@ import { calculateChunkHash, generateRandomId, generateRoomCode } from '../src/r
 
 describe('Cryptographic Engine & Hashing Tests', () => {
   it('should generate consistent sub-millisecond hashes for data chunks', () => {
-    const chunkA = new TextEncoder().encode('InstaShare Next BLAKE3 Chunk Stream Data Test');
+    const chunkA = new TextEncoder().encode('ZeroHop BLAKE3 Chunk Stream Data Test');
     const hashA1 = calculateChunkHash(chunkA);
     const hashA2 = calculateChunkHash(chunkA);
 

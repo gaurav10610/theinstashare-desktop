@@ -21,7 +21,7 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   isWebBridgeActive: false,
   webBridgeUrl: null,
   webBridgeQR: null,
-  defaultDownloadDir: 'Downloads/InstaShare',
+  defaultDownloadDir: 'Downloads/ZeroHop',
   autoAcceptFromKnownPeers: false,
 
   setTheme: (theme) => set({ theme }),

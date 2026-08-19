@@ -4,7 +4,7 @@ import { calculateChunkHash } from '../src/renderer/src/core/crypto/hashing';
 
 describe('File Streaming Engine Exhaustive Suite', () => {
   it('should correctly format binary packets with Big-Endian 4-byte header', () => {
-    const rawPayload = new TextEncoder().encode('Hello InstaShare Chunk');
+    const rawPayload = new TextEncoder().encode('Hello ZeroHop Chunk');
     const metadata: ChunkMetadata = {
       fileId: 'file_test_99',
       chunkIndex: 3,
@@ -31,7 +31,7 @@ describe('File Streaming Engine Exhaustive Suite', () => {
     expect(parsedJson.chunkHash).toBe(metadata.chunkHash);
 
     const extractedPayload = packet.slice(4 + metaLength);
-    expect(new TextDecoder().decode(extractedPayload)).toBe('Hello InstaShare Chunk');
+    expect(new TextDecoder().decode(extractedPayload)).toBe('Hello ZeroHop Chunk');
   });
 
   it('should handle zero-byte file streaming gracefully', async () => {

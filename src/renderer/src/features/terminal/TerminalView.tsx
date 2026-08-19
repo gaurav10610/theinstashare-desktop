@@ -30,7 +30,7 @@ export function TerminalView() {
       appendHistory(data);
     });
 
-    appendHistory(`\x1b[1;32m[InstaShare P2P Shell Connected with ${activePeer.name}]\x1b[0m\n$ `);
+    appendHistory(`\x1b[1;32m[ZeroHop P2P Shell Connected with ${activePeer.name}]\x1b[0m\n$ `);
   };
 
   const handleSendCommand = (e?: React.FormEvent) => {
@@ -127,7 +127,7 @@ export function TerminalView() {
               <div className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
               <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
             </div>
-            <span className="ml-2 font-semibold">instashare-pty</span>
+            <span className="ml-2 font-semibold">zerohop-pty</span>
           </div>
 
           <div className="flex items-center gap-3">

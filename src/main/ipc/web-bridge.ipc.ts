@@ -27,7 +27,7 @@ function getWebGuestHTML(peerName: string, filesList: Array<{ id: string; name: 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>InstaShare Next | Web Bridge</title>
+  <title>ZeroHop | Web Bridge</title>
   <style>
     :root {
       --primary: #6366f1;
@@ -154,7 +154,7 @@ export function registerWebBridgeIPC(): void {
       }
 
       if (url.pathname === '/upload' && req.method === 'POST') {
-        const uploadsDir = path.join(os.homedir(), 'Downloads', 'InstaShare');
+        const uploadsDir = path.join(os.homedir(), 'Downloads', 'ZeroHop');
         if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 
         // Pipe incoming body directly to temporary file

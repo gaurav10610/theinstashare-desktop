@@ -35,10 +35,10 @@ describe('Versioning & Release Exhaustive Suite', () => {
   describe('Platform Asset Matcher', () => {
     it('should match the appropriate binary installer for macOS arm64 vs x64 vs Windows vs Linux', () => {
       const mockAssets = [
-        { name: 'InstaShare-Next-2.1.0-arm64.dmg', browser_download_url: 'https://github.com/download/arm64.dmg' },
-        { name: 'InstaShare-Next-2.1.0-x64.dmg', browser_download_url: 'https://github.com/download/x64.dmg' },
-        { name: 'InstaShare-Next-Setup-2.1.0.exe', browser_download_url: 'https://github.com/download/setup.exe' },
-        { name: 'InstaShare-Next-2.1.0.AppImage', browser_download_url: 'https://github.com/download/appimage' }
+        { name: 'ZeroHop-2.1.0-arm64.dmg', browser_download_url: 'https://github.com/download/arm64.dmg' },
+        { name: 'ZeroHop-2.1.0-x64.dmg', browser_download_url: 'https://github.com/download/x64.dmg' },
+        { name: 'ZeroHop-Setup-2.1.0.exe', browser_download_url: 'https://github.com/download/setup.exe' },
+        { name: 'ZeroHop-2.1.0.AppImage', browser_download_url: 'https://github.com/download/appimage' }
       ];
 
       const matchMacArm64 = mockAssets.find((a) => a.name.includes('arm64.dmg'));

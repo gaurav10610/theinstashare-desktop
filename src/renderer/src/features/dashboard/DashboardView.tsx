@@ -98,7 +98,7 @@ export function DashboardView() {
             <M3Badge variant="success">Zero-Cloud E2EE</M3Badge>
           </div>
           <h1 className="text-xl font-bold text-slate-100 mt-1 tracking-tight">
-            Welcome to InstaShare Next
+            Welcome to ZeroHop
           </h1>
           <p className="text-xs text-slate-400 max-w-xl">
             Wire-speed file transfer, ultra-low-latency remote desktop, and encrypted calls directly between devices.
@@ -141,7 +141,7 @@ export function DashboardView() {
               </div>
               <h3 className="text-sm font-bold text-slate-200 mb-1">Scanning Local Network</h3>
               <p className="text-xs text-slate-400 max-w-sm mb-5">
-                Open InstaShare Next on any other PC on your Wi-Fi network or use the Web Gateway to connect a mobile device.
+                Open ZeroHop on any other PC on your Wi-Fi network or use the Web Gateway to connect a mobile device.
               </p>
               <M3Button
                 variant="outlined"
