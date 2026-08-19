@@ -2,6 +2,7 @@ import React from 'react';
 import { usePeerStore } from '../../stores/usePeerStore';
 import { useFileStore } from '../../stores/useFileStore';
 import { useCallStore } from '../../stores/useCallStore';
+import { useNotificationStore } from '../../stores/useNotificationStore';
 import { cn } from '../ui/M3Components';
 import {
   Compass,
@@ -24,17 +25,20 @@ interface NavItem {
 }
 
 export function Sidebar() {
-  const { activeTab, setActiveTab } = usePeerStore();
+  const { activeTab, setActiveTab, messages } = usePeerStore();
   const { transfers } = useFileStore();
   const { isActive: isCallActive } = useCallStore();
+  const { incomingCall } = useNotificationStore();
 
   const activeTransfersCount = Object.values(transfers).filter(
     (t) => t.status === 'transferring' || t.status === 'queued'
   ).length;
 
+  const totalUnreadMessages = Object.values(messages).reduce((acc, list) => acc + list.length, 0);
+
   const navItems: NavItem[] = [
     { id: 'dashboard', label: 'Radar', icon: Compass },
-    { id: 'talk', label: '1:1 Talk', icon: MessageSquare, isLive: isCallActive },
+    { id: 'talk', label: '1:1 Talk', icon: MessageSquare, isLive: isCallActive || incomingCall !== null },
     { id: 'files', label: 'Transfers', icon: HardDriveUpload, badge: activeTransfersCount },
     { id: 'remote', label: 'Remote', icon: MonitorPlay },
     { id: 'terminal', label: 'P2P Shell', icon: Terminal },
@@ -47,7 +51,7 @@ export function Sidebar() {
       <div className="flex flex-col items-center gap-6 w-full">
         {/* App Logo */}
         <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center shadow-lg shadow-indigo-500/25 border border-indigo-400/30">
-          <span className="font-extrabold text-white text-lg tracking-tight">IS</span>
+          <span className="font-extrabold text-white text-lg tracking-tight">ZH</span>
         </div>
 
         {/* Navigation Items */}

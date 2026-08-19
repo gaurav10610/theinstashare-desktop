@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { usePeerStore } from '../../stores/usePeerStore';
 import { useTerminalStore } from '../../stores/useTerminalStore';
 import { useAIStore } from '../../stores/useAIStore';
+import { ConnectionManager } from '../../core/transport/ConnectionManager';
 import { AIClient } from '../../core/ai/AIClient';
 import { M3Button, M3IconButton, M3Badge, M3Card } from '../../components/ui/M3Components';
 import { Terminal as TerminalIcon, Play, Sparkles, Send } from 'lucide-react';
@@ -24,10 +25,19 @@ export function TerminalView() {
   const handleStartPty = async () => {
     if (!activePeer) return;
     startSession(activePeer.id, activePeer.name, true);
+
+    window.api?.sendSignal(activePeer.id, {
+      type: 'terminal-request',
+      sourceName: usePeerStore.getState().myName,
+      sourceAvatar: usePeerStore.getState().myAvatar
+    }).catch(() => {});
+
+    const transport = await ConnectionManager.getInstance().connectToPeer(activePeer.id);
     await window.api?.spawnTerminal(80, 24);
 
     window.api?.onTerminalData((data) => {
       appendHistory(data);
+      transport?.send('terminal', { type: 'pty-data', data });
     });
 
     appendHistory(`\x1b[1;32m[ZeroHop P2P Shell Connected with ${activePeer.name}]\x1b[0m\n$ `);
@@ -37,7 +47,13 @@ export function TerminalView() {
     e?.preventDefault();
     if (!cmdInput.trim()) return;
 
-    window.api?.writeTerminal(cmdInput + '\n');
+    const command = cmdInput.trim() + '\n';
+    if (activePeer) {
+      const transport = ConnectionManager.getInstance().getTransport(activePeer.id);
+      transport?.send('terminal', { type: 'pty-input', data: command });
+    }
+
+    window.api?.writeTerminal(command);
     appendHistory(`$ ${cmdInput}\n`);
     setCmdInput('');
   };

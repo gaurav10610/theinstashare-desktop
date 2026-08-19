@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { usePeerStore } from '../../stores/usePeerStore';
 import { useSettingsStore } from '../../stores/useSettingsStore';
+import { ConnectionManager } from '../../core/transport/ConnectionManager';
 import { M3Button, M3Card, M3Badge, M3TextField, M3Dialog } from '../../components/ui/M3Components';
 import {
   Radio,
@@ -24,35 +25,9 @@ export function DashboardView() {
   const [isWebBridgeModalOpen, setIsWebBridgeModalOpen] = useState(false);
   const [copiedUrl, setCopiedUrl] = useState(false);
 
-  // Auto-start LAN discovery on load
   useEffect(() => {
-    window.api?.startDiscovery({
-      id: myId,
-      name: myName,
-      avatar: myAvatar,
-      ip: '127.0.0.1',
-      port: 8484,
-      os: window.api?.platform === 'darwin' ? 'mac' : (window.api?.platform === 'win32' ? 'windows' : 'linux'),
-      version: '2.0.0',
-      capabilities: ['file-stream', 'audio-video', 'remote-control', 'terminal', 'folder-sync'],
-      lastSeen: Date.now()
-    }).catch(console.error);
-
-    const unsubscribe = window.api?.onPeerFound((peer) => {
-      upsertPeer({
-        id: peer.id,
-        name: peer.name,
-        avatar: peer.avatar,
-        ip: peer.ip,
-        os: peer.os as any,
-        isLocal: true
-      });
-    });
-
-    return () => {
-      unsubscribe?.();
-    };
-  }, [myId, myName, myAvatar, upsertPeer]);
+    ConnectionManager.getInstance().init().catch(console.error);
+  }, []);
 
   const handleToggleWebBridge = async () => {
     if (isWebBridgeActive) {
@@ -67,31 +42,41 @@ export function DashboardView() {
     }
   };
 
-  const handleQuickConnect = (e: React.FormEvent) => {
+  const handleQuickConnect = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!roomCode.trim()) return;
 
+    ConnectionManager.getInstance().joinRoomByCode(roomCode.trim());
     const mockId = `peer_${roomCode.trim().toLowerCase()}`;
     upsertPeer({
       id: mockId,
       name: `Room-${roomCode.trim().toUpperCase()}`,
       avatar: '🌐',
-      ip: 'WAN / WebRTC',
+      ip: 'LAN / Multicast',
       os: 'unknown',
-      isLocal: false
+      isLocal: true,
+      connectionState: 'connecting'
     });
     setSelectedPeerId(mockId);
     setActiveTab('talk');
+  };
+
+  const handleConnectToPeer = async (peerId: string, targetTab: 'talk' | 'files' | 'remote' | 'terminal') => {
+    setSelectedPeerId(peerId);
+    setActiveTab(targetTab);
+    try {
+      await ConnectionManager.getInstance().connectToPeer(peerId);
+    } catch (err) {
+      console.warn('Direct peer connection error:', err);
+    }
   };
 
   const peerList = Object.values(peers);
 
   return (
     <div className="h-full w-full overflow-y-auto p-7 flex flex-col gap-6">
-      {/* Top Banner / Hero */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 glass-panel rounded-2xl p-6 border border-indigo-500/20 shadow-xl relative overflow-hidden shrink-0">
-        <div className="absolute -right-10 -bottom-10 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
-
+      {/* Hero Welcome & Quick Status Banner */}
+      <div className="relative overflow-hidden rounded-2xl p-6 glass-panel border border-slate-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex flex-col gap-1 z-10">
           <div className="flex items-center gap-2">
             <M3Badge variant="primary">Next-Gen P2P Suite</M3Badge>
@@ -156,7 +141,7 @@ export function DashboardView() {
               </M3Button>
             </M3Card>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               {peerList.map((peer) => (
                 <M3Card
                   key={peer.id}
@@ -178,17 +163,14 @@ export function DashboardView() {
                       </div>
                     </div>
 
-                    <M3Badge variant={peer.isLocal ? 'success' : 'primary'}>
-                      {peer.isLocal ? 'LAN Wire' : 'WAN P2P'}
+                    <M3Badge variant={peer.connectionState === 'connected' ? 'success' : peer.isLocal ? 'primary' : 'secondary'}>
+                      {peer.connectionState === 'connected' ? 'Connected' : peer.isLocal ? 'LAN Wire' : 'WAN P2P'}
                     </M3Badge>
                   </div>
 
                   <div className="grid grid-cols-4 gap-1.5 pt-2.5 border-t border-slate-800/80">
                     <button
-                      onClick={() => {
-                        setSelectedPeerId(peer.id);
-                        setActiveTab('talk');
-                      }}
+                      onClick={() => handleConnectToPeer(peer.id, 'talk')}
                       title="1:1 Encrypted Talk"
                       className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-800/60 hover:bg-indigo-600/20 hover:text-indigo-300 text-slate-400 transition-colors text-[11px] font-medium gap-1"
                     >
@@ -197,10 +179,7 @@ export function DashboardView() {
                     </button>
 
                     <button
-                      onClick={() => {
-                        setSelectedPeerId(peer.id);
-                        setActiveTab('files');
-                      }}
+                      onClick={() => handleConnectToPeer(peer.id, 'files')}
                       title="Send Files"
                       className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-800/60 hover:bg-indigo-600/20 hover:text-indigo-300 text-slate-400 transition-colors text-[11px] font-medium gap-1"
                     >
@@ -209,10 +188,7 @@ export function DashboardView() {
                     </button>
 
                     <button
-                      onClick={() => {
-                        setSelectedPeerId(peer.id);
-                        setActiveTab('remote');
-                      }}
+                      onClick={() => handleConnectToPeer(peer.id, 'remote')}
                       title="Remote Control"
                       className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-800/60 hover:bg-indigo-600/20 hover:text-indigo-300 text-slate-400 transition-colors text-[11px] font-medium gap-1"
                     >
@@ -221,10 +197,7 @@ export function DashboardView() {
                     </button>
 
                     <button
-                      onClick={() => {
-                        setSelectedPeerId(peer.id);
-                        setActiveTab('terminal');
-                      }}
+                      onClick={() => handleConnectToPeer(peer.id, 'terminal')}
                       title="P2P Terminal Pairing"
                       className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-800/60 hover:bg-indigo-600/20 hover:text-indigo-300 text-slate-400 transition-colors text-[11px] font-medium gap-1"
                     >
@@ -238,89 +211,91 @@ export function DashboardView() {
           )}
         </div>
 
-        {/* Right 1 Col: Quick Connect & Room Codes */}
-        <div className="flex flex-col gap-4">
+        {/* Right 1 Col: Quick Connect & Zero-Install Web Gateway */}
+        <div className="flex flex-col gap-5">
+          {/* Quick Connect by PIN */}
           <M3Card className="flex flex-col gap-3.5">
             <h3 className="font-semibold text-xs text-slate-300 uppercase tracking-wider flex items-center gap-2">
               <Shield className="w-4 h-4 text-indigo-400" />
-              <span>Connect via Room PIN</span>
+              <span>Connect by Room PIN</span>
             </h3>
             <p className="text-xs text-slate-400 leading-relaxed">
-              Pair with any peer outside your local network using a 6-digit disposable code.
+              Enter a 6-character room PIN or invite token to pair with any peer across subnets.
             </p>
 
-            <form onSubmit={handleQuickConnect} className="flex flex-col gap-3">
+            <form onSubmit={handleQuickConnect} className="flex gap-2">
               <M3TextField
-                placeholder="e.g. 7X9K2A"
+                placeholder="e.g. 7X9K2P"
                 value={roomCode}
                 onChange={(e) => setRoomCode(e.target.value.toUpperCase())}
-                className="text-center font-mono uppercase tracking-widest font-bold"
+                maxLength={6}
+                className="font-mono uppercase font-bold text-center tracking-widest text-sm"
               />
-              <M3Button
-                type="submit"
-                variant="filled"
-                size="md"
-                disabled={!roomCode.trim()}
-                icon={<ArrowRight className="w-4 h-4" />}
-              >
-                Join Room
+              <M3Button type="submit" variant="filled" size="md" icon={<ArrowRight className="w-4 h-4" />}>
+                Join
               </M3Button>
             </form>
           </M3Card>
 
-          {/* Web Bridge Card */}
-          <M3Card className="flex flex-col gap-3 bg-gradient-to-br from-indigo-950/40 to-slate-900/60 border border-indigo-500/20">
+          {/* Web Gateway Card */}
+          <M3Card className="flex flex-col gap-3.5 bg-gradient-to-br from-indigo-950/30 to-slate-900/60 border-indigo-500/20">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
+              <h3 className="font-semibold text-xs text-slate-300 uppercase tracking-wider flex items-center gap-2">
                 <Smartphone className="w-4 h-4 text-indigo-400" />
-                <h4 className="font-semibold text-xs text-slate-300 uppercase tracking-wider">Zero-Install Web Bridge</h4>
-              </div>
+                <span>Zero-Install Phone Bridge</span>
+              </h3>
               <M3Badge variant={isWebBridgeActive ? 'success' : 'secondary'}>
-                {isWebBridgeActive ? 'Online' : 'Standby'}
+                {isWebBridgeActive ? 'Active' : 'Offline'}
               </M3Badge>
             </div>
+
             <p className="text-xs text-slate-400 leading-relaxed">
-              Instantly share files with any smartphone (iOS / Android) or guest browser with zero app installation.
+              Scan with your iPhone or Android camera to beam files or view your screen directly in Safari / Chrome with no app installation.
             </p>
+
             <M3Button
-              variant="tonal"
-              size="sm"
-              icon={<QrCode className="w-3.5 h-3.5" />}
+              variant={isWebBridgeActive ? 'tonal' : 'filled'}
+              size="md"
+              icon={<QrCode className="w-4 h-4" />}
               onClick={handleToggleWebBridge}
             >
-              {isWebBridgeActive ? 'Stop Web Gateway' : 'Start Web Gateway'}
+              {isWebBridgeActive ? 'View Web Gateway QR' : 'Launch Web Gateway'}
             </M3Button>
           </M3Card>
         </div>
       </div>
 
-      {/* Web Bridge QR Dialog */}
+      {/* Web Bridge Modal */}
       <M3Dialog
         isOpen={isWebBridgeModalOpen}
         onClose={() => setIsWebBridgeModalOpen(false)}
         title="Zero-Install Web Gateway"
+        maxWidth="max-w-md"
       >
-        <div className="flex flex-col items-center gap-4 text-center">
+        <div className="flex flex-col items-center gap-4 py-2">
           {webBridgeQR && (
             <div className="p-3 bg-white rounded-2xl shadow-xl">
-              <img src={webBridgeQR} alt="Web Bridge QR Code" className="w-48 h-48" />
+              <img src={webBridgeQR} alt="Web Bridge QR Code" className="w-52 h-52" />
             </div>
           )}
 
-          <p className="text-xs text-slate-300 leading-relaxed">
-            Scan this QR code with any smartphone camera on the same Wi-Fi to immediately download/upload files without installing software.
-          </p>
+          <div className="text-center">
+            <h4 className="font-bold text-sm text-slate-100">Scan with Mobile Camera</h4>
+            <p className="text-xs text-slate-400 mt-1 max-w-xs">
+              Opens instant upload & download portal on your local Wi-Fi without installing any application.
+            </p>
+          </div>
 
           {webBridgeUrl && (
-            <div className="flex items-center justify-between w-full p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-xs">
-              <span className="font-mono text-indigo-300 truncate">{webBridgeUrl}</span>
+            <div className="w-full flex items-center justify-between p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs font-mono text-indigo-300">
+              <span className="truncate mr-2">{webBridgeUrl}</span>
               <button
                 onClick={() => {
                   navigator.clipboard.writeText(webBridgeUrl);
                   setCopiedUrl(true);
                   setTimeout(() => setCopiedUrl(false), 2000);
                 }}
-                className="text-slate-400 hover:text-white p-1"
+                className="p-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-800 rounded-lg transition-colors shrink-0"
               >
                 {copiedUrl ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
               </button>

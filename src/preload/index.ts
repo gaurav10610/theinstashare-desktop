@@ -11,10 +11,16 @@ export const api: ElectronAPI = {
   startDiscovery: (peerInfo: DiscoveredPeer): Promise<boolean> => ipcRenderer.invoke('discovery:start', peerInfo),
   stopDiscovery: (): Promise<boolean> => ipcRenderer.invoke('discovery:stop'),
   getLocalIPs: (): Promise<string[]> => ipcRenderer.invoke('discovery:get-local-ips'),
+  sendSignal: (targetPeerId: string, signal: any): Promise<boolean> => ipcRenderer.invoke('discovery:send-signal', targetPeerId, signal),
   onPeerFound: (callback: (peer: DiscoveredPeer) => void) => {
     const handler = (_: Electron.IpcRendererEvent, peer: DiscoveredPeer) => callback(peer);
     ipcRenderer.on('discovery:peer-found', handler);
     return () => ipcRenderer.removeListener('discovery:peer-found', handler);
+  },
+  onSignalReceived: (callback: (data: { sourcePeerId: string; sourcePeerName?: string; signal: any }) => void) => {
+    const handler = (_: Electron.IpcRendererEvent, data: any) => callback(data);
+    ipcRenderer.on('discovery:signal-received', handler);
+    return () => ipcRenderer.removeListener('discovery:signal-received', handler);
   },
 
   // Web Bridge

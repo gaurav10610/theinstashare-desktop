@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { usePeerStore } from '../../stores/usePeerStore';
 import { useCallStore } from '../../stores/useCallStore';
+import { ConnectionManager } from '../../core/transport/ConnectionManager';
 import { M3Button, M3IconButton, M3Badge, M3TextField } from '../../components/ui/M3Components';
 import { ScreenAnnotationOverlay } from './ScreenAnnotationOverlay';
 import {
@@ -59,18 +60,27 @@ export function TalkView() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [peerMessages]);
 
-  const handleSendMessage = (e?: React.FormEvent) => {
+  const handleSendMessage = async (e?: React.FormEvent) => {
     e?.preventDefault();
     if (!chatInput.trim()) return;
 
+    const text = chatInput.trim();
     addMessage(currentPeerId, {
       id: `msg_${Date.now()}`,
       senderId: myId,
       senderName: myName,
-      text: chatInput.trim(),
+      text,
       timestamp: Date.now(),
       status: 'delivered'
     });
+
+    // Send through active P2P DataChannel and multicast signaling
+    ConnectionManager.getInstance().sendChatMessage(currentPeerId, text);
+    window.api?.sendSignal(currentPeerId, {
+      type: 'chat',
+      text,
+      senderName: myName
+    }).catch(() => {});
 
     setChatInput('');
   };
@@ -78,6 +88,29 @@ export function TalkView() {
   const handleStartCall = async (mode: 'audio' | 'video' | 'screen') => {
     if (!activePeer) return;
     startCall(activePeer.id, activePeer.name, mode);
+
+    window.api?.sendSignal(activePeer.id, {
+      type: 'call-start',
+      callType: mode,
+      sourceName: myName,
+      sourceAvatar: usePeerStore.getState().myAvatar
+    }).catch(() => {});
+
+    try {
+      const transport = await ConnectionManager.getInstance().connectToPeer(activePeer.id);
+      transport.send('control', { type: 'call-start', callType: mode });
+    } catch (err) {
+      console.warn('Call setup error:', err);
+    }
+  };
+
+  const handleEndCall = () => {
+    if (activePeer) {
+      const transport = ConnectionManager.getInstance().getTransport(activePeer.id);
+      transport?.send('control', { type: 'call-end' });
+      window.api?.sendSignal(activePeer.id, { type: 'call-end' }).catch(() => {});
+    }
+    endCall();
   };
 
   const formatTime = (secs: number) => {
@@ -235,7 +268,7 @@ export function TalkView() {
             <M3IconButton
               size="lg"
               variant="danger"
-              onClick={endCall}
+              onClick={handleEndCall}
               title="End Call"
             >
               <PhoneOff className="w-5 h-5" />

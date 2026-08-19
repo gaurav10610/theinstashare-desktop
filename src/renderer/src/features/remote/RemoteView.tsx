@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { usePeerStore } from '../../stores/usePeerStore';
 import { useRemoteStore } from '../../stores/useRemoteStore';
+import { ConnectionManager } from '../../core/transport/ConnectionManager';
 import { M3Button, M3IconButton, M3Badge, cn } from '../../components/ui/M3Components';
 import {
   Monitor,
@@ -26,21 +27,29 @@ export function RemoteView() {
   const activePeer = selectedPeerId ? peers[selectedPeerId] : Object.values(peers)[0];
   const viewportRef = useRef<HTMLDivElement>(null);
 
+  const sendRemoteEvent = (event: any) => {
+    if (!activePeer) return;
+    const transport = ConnectionManager.getInstance().getTransport(activePeer.id);
+    if (transport) {
+      transport.send('remote', event);
+    }
+  };
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!isActive || controlMode !== 'full-control') return;
     const rect = viewportRef.current?.getBoundingClientRect();
     if (!rect) return;
 
-    // Sub-pixel normalized ratio (0..1)
     const normalizedX = (e.clientX - rect.left) / rect.width;
     const normalizedY = (e.clientY - rect.top) / rect.height;
 
-    window.api?.simulateInput({
+    const event = {
       type: 'mouse-move',
       x: normalizedX,
       y: normalizedY,
       normalized: true
-    }).catch(() => {});
+    };
+    sendRemoteEvent(event);
   };
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -51,29 +60,43 @@ export function RemoteView() {
     const normalizedX = (e.clientX - rect.left) / rect.width;
     const normalizedY = (e.clientY - rect.top) / rect.height;
 
-    window.api?.simulateInput({
+    const event = {
       type: 'mouse-click',
       x: normalizedX,
       y: normalizedY,
       button: e.button === 2 ? 'right' : (e.button === 1 ? 'middle' : 'left'),
       normalized: true
-    }).catch(() => {});
+    };
+    sendRemoteEvent(event);
   };
 
   const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
     if (!isActive || controlMode !== 'full-control') return;
-    window.api?.simulateInput({
+    sendRemoteEvent({
       type: 'scroll',
       deltaY: e.deltaY
-    }).catch(() => {});
+    });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (!isActive || controlMode !== 'full-control') return;
-    window.api?.simulateInput({
+    sendRemoteEvent({
       type: 'key-tap',
       text: e.key
+    });
+  };
+
+  const handleStartSession = async () => {
+    if (!activePeer) return;
+    startRemoteSession(activePeer.id, activePeer.name);
+
+    window.api?.sendSignal(activePeer.id, {
+      type: 'remote-request',
+      sourceName: usePeerStore.getState().myName,
+      sourceAvatar: usePeerStore.getState().myAvatar
     }).catch(() => {});
+
+    await ConnectionManager.getInstance().connectToPeer(activePeer.id);
   };
 
   return (
@@ -145,9 +168,7 @@ export function RemoteView() {
             size="sm"
             disabled={!activePeer}
             icon={<Monitor className="w-4 h-4" />}
-            onClick={() => {
-              if (activePeer) startRemoteSession(activePeer.id, activePeer.name);
-            }}
+            onClick={handleStartSession}
           >
             Connect to {activePeer?.name || 'Peer'}
           </M3Button>
@@ -197,9 +218,7 @@ export function RemoteView() {
               variant="filled"
               size="sm"
               disabled={!activePeer}
-              onClick={() => {
-                if (activePeer) startRemoteSession(activePeer.id, activePeer.name);
-              }}
+              onClick={handleStartSession}
             >
               Request Remote Access
             </M3Button>
