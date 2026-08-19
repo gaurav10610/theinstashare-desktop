@@ -3,7 +3,7 @@ import { usePeerStore } from '../../stores/usePeerStore';
 import { useFileStore } from '../../stores/useFileStore';
 import { ConnectionManager } from '../../core/transport/ConnectionManager';
 import { FileStreamer } from '../../core/file-stream/FileStreamer';
-import { M3Button, M3Card, M3Badge, M3ProgressBar, M3Dialog, M3Tabs, cn } from '../../components/ui/M3Components';
+import { Button, Card, Badge, ProgressBar, Dialog, Tabs, cn } from '../../components/ui';
 import { TransferFile } from '../../core/types';
 import {
   UploadCloud,
@@ -170,17 +170,17 @@ export function FileTransferView() {
   };
 
   return (
-    <div className="h-full w-full overflow-y-auto p-7 flex flex-col gap-6">
+    <div className="h-full w-full overflow-y-auto p-7 flex flex-col gap-6 text-slate-900 dark:text-slate-100">
       {/* Top Header & Tabs */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shrink-0">
         <div>
-          <h1 className="text-xl font-bold text-slate-100 tracking-tight">Hyper-Stream File Hub</h1>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <h1 className="text-xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">Hyper-Stream File Hub</h1>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
             Zero-RAM chunk streaming with sub-millisecond BLAKE3 hash block verification.
           </p>
         </div>
 
-        <M3Tabs
+        <Tabs
           activeTab={activeTab}
           onChange={(tab: any) => setActiveTab(tab)}
           tabs={[
@@ -200,50 +200,50 @@ export function FileTransferView() {
             onDrop={handleDrop}
             onClick={handlePickFiles}
             className={cn(
-              'border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-200 glass-panel',
-              isDragOver ? 'border-indigo-500 bg-indigo-500/10 scale-[1.005]' : 'border-slate-800 hover:border-indigo-500/40'
+              'border-2 border-dashed rounded-3xl p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-200 glass-panel',
+              isDragOver ? 'border-indigo-500 bg-indigo-500/10 scale-[1.005]' : 'border-slate-300 dark:border-slate-800 hover:border-indigo-500/40'
             )}
           >
-            <div className="w-14 h-14 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 mb-3">
+            <div className="w-14 h-14 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-500 dark:text-indigo-400 mb-3">
               <UploadCloud className="w-7 h-7" />
             </div>
-            <h3 className="text-sm font-bold text-slate-100 mb-1">
+            <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 mb-1">
               Drag & Drop Files or Click to Browse
             </h3>
-            <p className="text-xs text-slate-400 max-w-sm mb-4">
+            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mb-4">
               Direct peer-to-peer streaming to {activePeer?.name || 'selected peer'} at full line speed (1-10 Gbps).
             </p>
-            <M3Button variant="tonal" size="sm">
+            <Button variant="tonal" size="sm">
               Select Files from Computer
-            </M3Button>
+            </Button>
           </div>
 
           {/* Transfers Queue */}
           <div className="flex flex-col gap-3">
-            <h3 className="text-xs font-semibold text-slate-300 uppercase tracking-wider px-1">Active & Completed Transfers</h3>
+            <h3 className="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider px-1">Active & Completed Transfers</h3>
 
             {transferList.length === 0 ? (
-              <M3Card className="text-center py-10 text-xs text-slate-500">
+              <Card className="text-center py-10 text-xs text-slate-400 dark:text-slate-500">
                 No active transfers. Drag files above to begin.
-              </M3Card>
+              </Card>
             ) : (
               transferList.map((file) => (
-                <M3Card key={file.id} className="flex flex-col gap-3 p-4">
+                <Card key={file.id} className="flex flex-col gap-3 p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3 overflow-hidden">
-                      <div className="w-9 h-9 rounded-xl bg-slate-800 flex items-center justify-center text-indigo-400 shrink-0 border border-slate-700/60">
+                      <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-indigo-500 dark:text-indigo-400 shrink-0 border border-slate-200 dark:border-slate-700/60">
                         <FileIcon className="w-4 h-4" />
                       </div>
                       <div className="overflow-hidden">
-                        <h4 className="font-semibold text-xs text-slate-200 truncate">{file.name}</h4>
-                        <div className="flex items-center gap-2 text-[11px] text-slate-400 mt-0.5">
+                        <h4 className="font-semibold text-xs text-slate-900 dark:text-slate-100 truncate">{file.name}</h4>
+                        <div className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                           <span>{formatBytes(file.size)}</span>
                           <span>•</span>
                           <span>To: {file.peerName}</span>
                           {file.speed > 0 && (
                             <>
                               <span>•</span>
-                              <span className="text-emerald-400 font-mono font-semibold">
+                              <span className="text-emerald-500 dark:text-emerald-400 font-mono font-semibold">
                                 {formatBytes(file.speed)}/s
                               </span>
                             </>
@@ -253,7 +253,7 @@ export function FileTransferView() {
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <M3Badge
+                      <Badge
                         variant={
                           file.status === 'completed'
                             ? 'success'
@@ -264,11 +264,11 @@ export function FileTransferView() {
                       >
                         {file.status === 'completed' && <CheckCircle2 className="w-3 h-3 mr-1 inline" />}
                         {file.status}
-                      </M3Badge>
+                      </Badge>
 
                       <button
                         onClick={() => setPreviewFile(file)}
-                        className="p-1.5 text-slate-400 hover:text-indigo-300 hover:bg-slate-800 rounded-lg transition-colors"
+                        className="p-1.5 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
                         title="Preview Media"
                       >
                         <Eye className="w-4 h-4" />
@@ -277,12 +277,12 @@ export function FileTransferView() {
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <M3ProgressBar progress={file.progress} color={file.status === 'completed' ? 'success' : 'primary'} />
-                    <span className="text-xs font-mono text-slate-400 font-semibold w-10 text-right">
+                    <ProgressBar progress={file.progress} variant={file.status === 'completed' ? 'success' : 'primary'} />
+                    <span className="text-xs font-mono text-slate-500 dark:text-slate-400 font-semibold w-10 text-right">
                       {file.progress}%
                     </span>
                   </div>
-                </M3Card>
+                </Card>
               ))
             )}
           </div>
@@ -291,122 +291,122 @@ export function FileTransferView() {
 
       {activeTab === 'folder-sync' && (
         <div className="flex flex-col gap-6">
-          <M3Card className="flex flex-col gap-4">
+          <Card className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 shrink-0">
+                <div className="w-11 h-11 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-500 dark:text-indigo-400 shrink-0">
                   <FolderSync className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-xs text-slate-100">Live P2P Folder Mirror</h3>
-                  <p className="text-xs text-slate-400 mt-0.5">
+                  <h3 className="font-semibold text-xs text-slate-900 dark:text-slate-100">Live P2P Folder Mirror</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                     Two-way live directory watcher powered by chokidar and delta streams.
                   </p>
                 </div>
               </div>
 
-              <M3Button
-                variant={isFolderSyncing ? 'outlined' : 'filled'}
+              <Button
+                variant={isFolderSyncing ? 'outlined' : 'primary'}
                 size="sm"
                 icon={<FolderOpen className="w-3.5 h-3.5" />}
                 onClick={handleSelectSyncFolder}
               >
                 {isFolderSyncing ? 'Change Directory' : 'Choose Sync Folder'}
-              </M3Button>
+              </Button>
             </div>
 
             {activeFolderSyncPath && (
-              <div className="p-3 bg-slate-900 rounded-xl border border-slate-800 text-xs font-mono text-indigo-300 flex items-center justify-between">
+              <div className="p-3 bg-slate-100 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-mono text-indigo-600 dark:text-indigo-300 flex items-center justify-between">
                 <span className="truncate">{activeFolderSyncPath}</span>
-                <M3Badge variant="success">Watching</M3Badge>
+                <Badge variant="success">Watching</Badge>
               </div>
             )}
-          </M3Card>
+          </Card>
 
           {/* Folder Sync Events Feed */}
-          <M3Card className="flex flex-col gap-3">
-            <h4 className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Live Delta Sync Events</h4>
-            <div className="max-h-60 overflow-y-auto flex flex-col gap-1.5 font-mono text-xs text-slate-400">
+          <Card className="flex flex-col gap-3">
+            <h4 className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Live Delta Sync Events</h4>
+            <div className="max-h-60 overflow-y-auto flex flex-col gap-1.5 font-mono text-xs text-slate-500 dark:text-slate-400">
               {folderSyncEvents.length === 0 ? (
-                <div className="text-center py-6 text-slate-600 font-sans text-xs">
+                <div className="text-center py-6 text-slate-400 dark:text-slate-600 font-sans text-xs">
                   No directory changes detected yet. File edits will stream in real time.
                 </div>
               ) : (
                 folderSyncEvents.map((evt, idx) => (
-                  <div key={idx} className="flex items-center justify-between p-2 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                  <div key={idx} className="flex items-center justify-between p-2 rounded-lg bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60">
                     <div className="flex items-center gap-2">
-                      <M3Badge variant={evt.type === 'unlink' ? 'error' : 'secondary'}>
+                      <Badge variant={evt.type === 'unlink' ? 'danger' : 'secondary'}>
                         {evt.type.toUpperCase()}
-                      </M3Badge>
-                      <span className="text-slate-200">{evt.relativePath}</span>
+                      </Badge>
+                      <span className="text-slate-800 dark:text-slate-200">{evt.relativePath}</span>
                     </div>
-                    <span className="text-[10px] text-slate-500">
+                    <span className="text-[10px] text-slate-400 dark:text-slate-500">
                       {new Date(evt.timestamp).toLocaleTimeString()}
                     </span>
                   </div>
                 ))
               )}
             </div>
-          </M3Card>
+          </Card>
         </div>
       )}
 
       {activeTab === 'sanitizer' && (
         <div className="flex flex-col gap-4">
-          <M3Card className="flex flex-col gap-3.5 bg-rose-950/20 border border-rose-500/30">
+          <Card className="flex flex-col gap-3.5 bg-rose-500/10 dark:bg-rose-950/20 border border-rose-500/30">
             <div className="flex items-center gap-3">
-              <AlertTriangle className="w-5 h-5 text-rose-400 shrink-0" />
+              <AlertTriangle className="w-5 h-5 text-rose-500 dark:text-rose-400 shrink-0" />
               <div>
-                <h3 className="font-semibold text-xs text-rose-200">Pre-Flight Security Shield</h3>
-                <p className="text-xs text-rose-300/80 mt-0.5">
+                <h3 className="font-semibold text-xs text-rose-700 dark:text-rose-200">Pre-Flight Security Shield</h3>
+                <p className="text-xs text-rose-600/80 dark:text-rose-300/80 mt-0.5">
                   Automatic leak detector prevents sending credentials, .env files, and OS junk.
                 </p>
               </div>
             </div>
 
             {sanitizerAlerts.length === 0 ? (
-              <div className="p-4 rounded-xl bg-slate-900/80 text-xs text-slate-400 text-center">
+              <div className="p-4 rounded-xl bg-white/70 dark:bg-slate-900/80 text-xs text-slate-500 dark:text-slate-400 text-center border border-slate-200 dark:border-slate-800">
                 ✅ No sensitive keys or unstripped build junk detected in recent transfers.
               </div>
             ) : (
               <div className="flex flex-col gap-2 pt-2">
                 {sanitizerAlerts.map((alert, idx) => (
-                  <div key={idx} className="p-3 rounded-xl bg-rose-900/30 border border-rose-500/40 text-xs text-rose-200 flex items-center justify-between">
+                  <div key={idx} className="p-3 rounded-xl bg-rose-100 dark:bg-rose-900/30 border border-rose-300 dark:border-rose-500/40 text-xs text-rose-800 dark:text-rose-200 flex items-center justify-between">
                     <span>{alert}</span>
-                    <M3Button
+                    <Button
                       size="sm"
                       variant="tonal"
                       onClick={() => setSanitizerAlerts((prev) => prev.filter((_, i) => i !== idx))}
                     >
                       Dismiss
-                    </M3Button>
+                    </Button>
                   </div>
                 ))}
               </div>
             )}
-          </M3Card>
+          </Card>
         </div>
       )}
 
       {/* Preview Dialog */}
-      <M3Dialog
+      <Dialog
         isOpen={previewFile !== null}
         onClose={() => setPreviewFile(null)}
         title={`File Preview: ${previewFile?.name || ''}`}
         maxWidth="max-w-xl"
       >
         <div className="flex flex-col items-center gap-4 text-center py-4">
-          <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+          <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-500 dark:text-indigo-400">
             <FileIcon className="w-8 h-8" />
           </div>
           <div>
-            <h4 className="font-semibold text-sm text-slate-100">{previewFile?.name}</h4>
-            <p className="text-xs text-slate-400 mt-1">
+            <h4 className="font-semibold text-sm text-slate-900 dark:text-slate-100">{previewFile?.name}</h4>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
               Size: {formatBytes(previewFile?.size || 0)} • Type: {previewFile?.type}
             </p>
           </div>
         </div>
-      </M3Dialog>
+      </Dialog>
     </div>
   );
 }

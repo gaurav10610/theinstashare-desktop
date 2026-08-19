@@ -76,6 +76,7 @@ export function applyThemeToDOM(effectiveTheme: EffectiveTheme): void {
   if (typeof document === 'undefined') return;
 
   const root = document.documentElement;
+  const body = document.body;
   if (!root) return;
 
   if (effectiveTheme === 'dark') {
@@ -83,10 +84,20 @@ export function applyThemeToDOM(effectiveTheme: EffectiveTheme): void {
     root.classList.remove('light');
     root.setAttribute('data-theme', 'dark');
     root.style.colorScheme = 'dark';
+    if (body) {
+      body.classList.add('dark');
+      body.classList.remove('light');
+      body.setAttribute('data-theme', 'dark');
+    }
   } else {
     root.classList.add('light');
     root.classList.remove('dark');
     root.setAttribute('data-theme', 'light');
     root.style.colorScheme = 'light';
+    if (body) {
+      body.classList.add('light');
+      body.classList.remove('dark');
+      body.setAttribute('data-theme', 'light');
+    }
   }
 }

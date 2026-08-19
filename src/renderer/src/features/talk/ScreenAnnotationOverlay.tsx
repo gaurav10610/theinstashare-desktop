@@ -1,10 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useCallStore } from '../../stores/useCallStore';
-import { M3IconButton } from '../../components/ui/M3Components';
-import { Pen, ArrowUpRight, Square, Circle, Sparkles, Trash2, X } from 'lucide-react';
+import { IconButton } from '../../components/ui';
+import { Pen, ArrowUpRight, Square, Trash2, X } from 'lucide-react';
 
 export function ScreenAnnotationOverlay() {
-  const { annotations, addAnnotation, clearAnnotations, isAnnotationEnabled, toggleAnnotation } = useCallStore();
+  const { annotations, clearAnnotations, isAnnotationEnabled, toggleAnnotation } = useCallStore();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [tool, setTool] = useState<'pen' | 'arrow' | 'rect' | 'laser'>('pen');
   const [color, setColor] = useState('#ef4444');
@@ -59,12 +59,12 @@ export function ScreenAnnotationOverlay() {
         ctx.strokeRect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
       }
     });
-  }, [annotations, isAnnotationEnabled]);
+  }, [annotations]);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!isAnnotationEnabled) return;
-    const rect = canvasRef.current?.getBoundingClientRect();
-    if (!rect) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
@@ -73,9 +73,10 @@ export function ScreenAnnotationOverlay() {
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!isDrawing || !isAnnotationEnabled) return;
-    const rect = canvasRef.current?.getBoundingClientRect();
-    if (!rect) return;
+    if (!isDrawing) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
@@ -83,20 +84,23 @@ export function ScreenAnnotationOverlay() {
   };
 
   const handleMouseUp = () => {
-    if (!isDrawing || !isAnnotationEnabled) return;
-    setIsDrawing(false);
-
-    if (currentPoints.length > 0) {
-      addAnnotation({
-        id: `ann_${Date.now()}`,
-        type: tool,
-        points: currentPoints,
-        color,
-        size: tool === 'pen' ? 3 : 2,
-        author: 'me',
-        timestamp: Date.now()
-      });
+    if (!isDrawing || currentPoints.length < 2) {
+      setIsDrawing(false);
+      setCurrentPoints([]);
+      return;
     }
+
+    useCallStore.getState().addAnnotation({
+      id: `ann_${Date.now()}`,
+      type: tool,
+      points: currentPoints,
+      color,
+      size: 3,
+      author: 'Local',
+      timestamp: Date.now()
+    });
+
+    setIsDrawing(false);
     setCurrentPoints([]);
   };
 
@@ -113,38 +117,32 @@ export function ScreenAnnotationOverlay() {
       />
 
       {/* Floating Annotation Toolbar */}
-      <div className="absolute top-4 left-1/2 -translate-x-1/2 pointer-events-auto flex items-center gap-1.5 p-1.5 rounded-full glass-panel-elevated border border-slate-700 shadow-2xl">
-        <M3IconButton
+      <div className="absolute top-4 left-1/2 -translate-x-1/2 pointer-events-auto flex items-center gap-1.5 p-1.5 rounded-full glass-panel-elevated border border-slate-200 dark:border-slate-700 shadow-2xl">
+        <IconButton
           size="sm"
           variant="tonal"
-          active={tool === 'pen'}
           onClick={() => setTool('pen')}
           title="Pen Draw"
-        >
-          <Pen className="w-4 h-4" />
-        </M3IconButton>
+          icon={<Pen className="w-4 h-4" />}
+        />
 
-        <M3IconButton
+        <IconButton
           size="sm"
           variant="tonal"
-          active={tool === 'arrow'}
           onClick={() => setTool('arrow')}
           title="Draw Arrow"
-        >
-          <ArrowUpRight className="w-4 h-4" />
-        </M3IconButton>
+          icon={<ArrowUpRight className="w-4 h-4" />}
+        />
 
-        <M3IconButton
+        <IconButton
           size="sm"
           variant="tonal"
-          active={tool === 'rect'}
           onClick={() => setTool('rect')}
           title="Draw Box"
-        >
-          <Square className="w-4 h-4" />
-        </M3IconButton>
+          icon={<Square className="w-4 h-4" />}
+        />
 
-        <div className="w-[1px] h-5 bg-slate-700 mx-1" />
+        <div className="w-[1px] h-5 bg-slate-200 dark:bg-slate-700 mx-1" />
 
         {/* Colors */}
         {['#ef4444', '#10b981', '#6366f1', '#f59e0b'].map((c) => (
@@ -159,15 +157,11 @@ export function ScreenAnnotationOverlay() {
           />
         ))}
 
-        <div className="w-[1px] h-5 bg-slate-700 mx-1" />
+        <div className="w-[1px] h-5 bg-slate-200 dark:bg-slate-700 mx-1" />
 
-        <M3IconButton size="sm" variant="standard" onClick={clearAnnotations} title="Clear All Markup">
-          <Trash2 className="w-4 h-4 text-slate-400 hover:text-rose-400" />
-        </M3IconButton>
+        <IconButton size="sm" variant="standard" onClick={clearAnnotations} title="Clear All Markup" icon={<Trash2 className="w-4 h-4 text-slate-400 hover:text-rose-500" />} />
 
-        <M3IconButton size="sm" variant="standard" onClick={toggleAnnotation} title="Close Annotation Tool">
-          <X className="w-4 h-4 text-slate-400" />
-        </M3IconButton>
+        <IconButton size="sm" variant="standard" onClick={toggleAnnotation} title="Close Annotation Tool" icon={<X className="w-4 h-4 text-slate-400" />} />
       </div>
     </div>
   );

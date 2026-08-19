@@ -7,11 +7,11 @@ import { ToastContainer } from '../notifications/ToastContainer';
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-col h-screen w-screen bg-slate-950 text-slate-100 overflow-hidden relative">
+    <div className="flex flex-col h-screen w-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden relative">
       <Header />
       <div className="flex flex-1 overflow-hidden relative">
         <Sidebar />
-        <main className="flex-1 overflow-hidden relative bg-slate-900/30">
+        <main className="flex-1 overflow-hidden relative bg-slate-100/60 dark:bg-slate-900/30">
           {children}
         </main>
         <DropShelf />

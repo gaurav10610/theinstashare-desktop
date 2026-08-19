@@ -19,6 +19,7 @@ import { SettingsView } from './features/settings/SettingsView';
 // Expose stores for automated testing & devtools
 if (typeof window !== 'undefined') {
   (window as any).usePeerStore = usePeerStore;
+  (window as any).useThemeStore = useThemeStore;
   (window as any).useCallStore = useCallStore;
   (window as any).useFileStore = useFileStore;
   (window as any).useRemoteStore = useRemoteStore;

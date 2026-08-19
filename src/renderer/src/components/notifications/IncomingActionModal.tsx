@@ -5,8 +5,7 @@ import { usePeerStore } from '../../stores/usePeerStore';
 import { useFileStore } from '../../stores/useFileStore';
 import { useRemoteStore } from '../../stores/useRemoteStore';
 import { useTerminalStore } from '../../stores/useTerminalStore';
-import { ConnectionManager } from '../../core/transport/ConnectionManager';
-import { M3Button, M3Card, M3Badge, M3Dialog } from '../ui/M3Components';
+import { Button, Dialog } from '../ui';
 import {
   Phone,
   PhoneOff,
@@ -15,8 +14,7 @@ import {
   HardDriveDownload,
   Monitor,
   Terminal as TerminalIcon,
-  Check,
-  X
+  Check
 } from 'lucide-react';
 
 export function IncomingActionModal() {
@@ -31,7 +29,7 @@ export function IncomingActionModal() {
     setIncomingTerminalRequest
   } = useNotificationStore();
 
-  const { startCall, endCall } = useCallStore();
+  const { startCall } = useCallStore();
   const { setActiveTab, setSelectedPeerId } = usePeerStore();
   const { updateTransfer } = useFileStore();
   const { startRemoteSession } = useRemoteStore();
@@ -66,7 +64,7 @@ export function IncomingActionModal() {
   // 2. Incoming File Transfer Handlers
   const handleAcceptTransfer = async () => {
     if (!incomingTransfer) return;
-    const { id, peerId, peerName } = incomingTransfer;
+    const { id, peerId } = incomingTransfer;
     setSelectedPeerId(peerId);
     setActiveTab('files');
 
@@ -141,7 +139,7 @@ export function IncomingActionModal() {
   return (
     <>
       {/* 1. Incoming Call Dialog */}
-      <M3Dialog
+      <Dialog
         isOpen={incomingCall !== null}
         onClose={handleDeclineCall}
         title="Incoming Encrypted Call"
@@ -158,133 +156,133 @@ export function IncomingActionModal() {
           </div>
 
           <div>
-            <h3 className="text-base font-bold text-slate-100">{incomingCall?.peerName}</h3>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">{incomingCall?.peerName}</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
               Incoming {incomingCall?.mode === 'video' ? '1:1 Video Call' : '1:1 Voice Call'}
             </p>
           </div>
 
           <div className="flex items-center gap-3 w-full justify-center pt-2">
-            <M3Button
+            <Button
               variant="danger"
               size="md"
               icon={<PhoneOff className="w-4 h-4" />}
               onClick={handleDeclineCall}
             >
               Decline
-            </M3Button>
-            <M3Button
-              variant="filled"
+            </Button>
+            <Button
+              variant="primary"
               size="md"
               icon={<Phone className="w-4 h-4" />}
               onClick={handleAcceptCall}
               className="bg-emerald-600 hover:bg-emerald-500 text-white"
             >
               Accept Call
-            </M3Button>
+            </Button>
           </div>
         </div>
-      </M3Dialog>
+      </Dialog>
 
       {/* 2. Incoming File Transfer Dialog */}
-      <M3Dialog
+      <Dialog
         isOpen={incomingTransfer !== null}
         onClose={handleDeclineTransfer}
         title="Incoming Wire-Speed File Stream"
         maxWidth="max-w-md"
       >
         <div className="flex flex-col items-center gap-4 py-3 text-center">
-          <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-3xl">
+          <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-3xl">
             <HardDriveDownload className="w-8 h-8" />
           </div>
 
           <div>
-            <h3 className="text-sm font-bold text-slate-100">
+            <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">
               {incomingTransfer?.peerName} is sending {incomingTransfer?.files.length} file(s)
             </h3>
-            <p className="text-xs text-slate-400 mt-1 max-w-xs">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-xs">
               {incomingTransfer?.files.map((f) => f.name).join(', ')}
             </p>
           </div>
 
           <div className="flex items-center gap-3 w-full justify-center pt-2">
-            <M3Button variant="tonal" size="sm" onClick={handleDeclineTransfer}>
+            <Button variant="tonal" size="sm" onClick={handleDeclineTransfer}>
               Decline
-            </M3Button>
-            <M3Button
-              variant="filled"
+            </Button>
+            <Button
+              variant="primary"
               size="sm"
               icon={<Check className="w-4 h-4" />}
               onClick={handleAcceptTransfer}
             >
               Receive & Save
-            </M3Button>
+            </Button>
           </div>
         </div>
-      </M3Dialog>
+      </Dialog>
 
       {/* 3. Incoming Remote Desktop Dialog */}
-      <M3Dialog
+      <Dialog
         isOpen={incomingRemoteRequest !== null}
         onClose={handleDeclineRemote}
         title="Remote Desktop Access Request"
         maxWidth="max-w-md"
       >
         <div className="flex flex-col items-center gap-4 py-3 text-center">
-          <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-3xl">
+          <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-3xl">
             <Monitor className="w-8 h-8" />
           </div>
 
           <div>
-            <h3 className="text-sm font-bold text-slate-100">{incomingRemoteRequest?.peerName}</h3>
-            <p className="text-xs text-slate-400 mt-1 max-w-xs">
+            <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">{incomingRemoteRequest?.peerName}</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-xs">
               Requested remote control access to your machine (60 FPS N-API Hardware Stream).
             </p>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-2 w-full justify-center pt-2">
-            <M3Button variant="tonal" size="sm" onClick={handleDeclineRemote}>
+            <Button variant="tonal" size="sm" onClick={handleDeclineRemote}>
               Reject
-            </M3Button>
-            <M3Button variant="outlined" size="sm" onClick={() => handleAcceptRemote('view-only')}>
+            </Button>
+            <Button variant="outlined" size="sm" onClick={() => handleAcceptRemote('view-only')}>
               View Only
-            </M3Button>
-            <M3Button variant="filled" size="sm" onClick={() => handleAcceptRemote('full-control')}>
+            </Button>
+            <Button variant="primary" size="sm" onClick={() => handleAcceptRemote('full-control')}>
               Grant Full Control
-            </M3Button>
+            </Button>
           </div>
         </div>
-      </M3Dialog>
+      </Dialog>
 
       {/* 4. Incoming Terminal Pairing Dialog */}
-      <M3Dialog
+      <Dialog
         isOpen={incomingTerminalRequest !== null}
         onClose={handleDeclineTerminal}
         title="P2P Terminal Pairing Session"
         maxWidth="max-w-md"
       >
         <div className="flex flex-col items-center gap-4 py-3 text-center">
-          <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-3xl">
+          <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-3xl">
             <TerminalIcon className="w-8 h-8" />
           </div>
 
           <div>
-            <h3 className="text-sm font-bold text-slate-100">{incomingTerminalRequest?.peerName}</h3>
-            <p className="text-xs text-slate-400 mt-1 max-w-xs">
+            <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">{incomingTerminalRequest?.peerName}</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-xs">
               Invited you to a collaborative encrypted PTY shell session.
             </p>
           </div>
 
           <div className="flex items-center gap-3 w-full justify-center pt-2">
-            <M3Button variant="tonal" size="sm" onClick={handleDeclineTerminal}>
+            <Button variant="tonal" size="sm" onClick={handleDeclineTerminal}>
               Dismiss
-            </M3Button>
-            <M3Button variant="filled" size="sm" onClick={handleAcceptTerminal}>
+            </Button>
+            <Button variant="primary" size="sm" onClick={handleAcceptTerminal}>
               Join Terminal
-            </M3Button>
+            </Button>
           </div>
         </div>
-      </M3Dialog>
+      </Dialog>
     </>
   );
 }
