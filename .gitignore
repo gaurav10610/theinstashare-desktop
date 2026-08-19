@@ -2,14 +2,12 @@
 
 # compiled output
 /dist
+/out
+/release
 /tmp
 /out-tsc
 /app-builds
-/release
-main.js
-src/**/*.js
-!src/assets/js/socket.io.js
-!src/karma.conf.js
+*.tsbuildinfo
 *.js.map
 
 # dependencies
