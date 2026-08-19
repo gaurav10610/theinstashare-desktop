@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
-  "appId": "com.theinstashare.desktop",
-  "productName": "InstaShare Next",
+  "appId": "com.zerohop.desktop",
+  "productName": "ZeroHop",
   "directories": {
     "output": "release"
   },

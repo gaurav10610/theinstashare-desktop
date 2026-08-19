@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * 100% Local Release Builder & Packager for InstaShare Next
+ * 100% Local Release Builder & Packager for ZeroHop
  * No GitHub Actions or 3rd party CI/CD required.
  * 
  * Usage:
@@ -22,7 +22,7 @@ const releaseDir = path.join(rootDir, 'release');
 const changelogPath = path.join(rootDir, 'CHANGELOG.md');
 
 console.log('═══════════════════════════════════════════════════════════');
-console.log(' 🚀 InstaShare Next - Local Release Packager');
+console.log(' 🚀 ZeroHop - Local Release Packager');
 console.log('═══════════════════════════════════════════════════════════');
 
 const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
@@ -94,7 +94,7 @@ if (fs.existsSync(releaseDir)) {
   const manifest = {
     version: pkg.version,
     releaseDate: new Date().toISOString(),
-    releaseName: `InstaShare Next v${pkg.version}`,
+    releaseName: `ZeroHop v${pkg.version}`,
     releaseNotes: `Release build v${pkg.version} generated locally.`,
     assets
   };

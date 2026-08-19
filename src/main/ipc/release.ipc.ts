@@ -43,7 +43,7 @@ export function registerReleaseIPC(): void {
 
   ipcMain.handle('release:check-updates', async (_, customServerUrl?: string): Promise<ReleaseUpdateInfo> => {
     const currentVersion = app.getVersion();
-    const manifestUrl = customServerUrl || process.env.UPDATE_SERVER_URL || 'https://api.github.com/repos/gaurav10610/theinstashare-desktop/releases/latest';
+    const manifestUrl = customServerUrl || process.env.UPDATE_SERVER_URL || 'https://api.github.com/repos/gaurav10610/zerohop-desktop/releases/latest';
 
     // 1. Check local release/version.json if available
     const localManifestPath = path.join(app.getAppPath(), 'release', 'version.json');
@@ -73,7 +73,7 @@ export function registerReleaseIPC(): void {
         manifestUrl,
         {
           headers: {
-            'User-Agent': `InstaShare-Desktop/${currentVersion}`
+            'User-Agent': `ZeroHop-Desktop/${currentVersion}`
           },
           timeout: 4000
         },

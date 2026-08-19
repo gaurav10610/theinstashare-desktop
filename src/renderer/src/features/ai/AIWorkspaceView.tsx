@@ -38,7 +38,7 @@ export function AIWorkspaceView() {
       addTranscriptSegment({
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         speaker: 'Local Microphone',
-        text: 'InstaShare Next local Whisper speech pipeline is active. Transcribing in real time without cloud requests.'
+        text: 'ZeroHop local Whisper speech pipeline is active. Transcribing in real time without cloud requests.'
       });
     }
   };

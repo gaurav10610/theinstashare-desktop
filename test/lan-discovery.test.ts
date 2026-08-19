@@ -15,10 +15,10 @@ describe('LAN Multicast & Discovery Exhaustive Suite', () => {
       lastSeen: Date.now()
     };
 
-    const encoded = JSON.stringify({ type: 'INSTASHARE_ANNOUNCE', peer: rawPeer });
+    const encoded = JSON.stringify({ type: 'ZEROHOP_ANNOUNCE', peer: rawPeer });
     const decoded = JSON.parse(encoded);
 
-    expect(decoded.type).toBe('INSTASHARE_ANNOUNCE');
+    expect(decoded.type).toBe('ZEROHOP_ANNOUNCE');
     expect(decoded.peer.id).toBe('peer_abc123');
     expect(decoded.peer.capabilities).toContain('remote-control');
     expect(decoded.peer.capabilities).toContain('terminal');

@@ -1,18 +1,18 @@
 #!/bin/bash
-# Multi-Instance Launcher for InstaShare Next
+# Multi-Instance Launcher for ZeroHop
 # Spawns two distinct peer instances for testing
 
-echo "🚀 Building latest InstaShare Next assets..."
+echo "🚀 Building latest ZeroHop assets..."
 npm run build
 
 echo "⚡ Spawning Instance 1: Alice (MacBook)..."
-npx electron . --user-data-dir=/tmp/instashare-alice --peer-name="Alice (MacBook)" --peer-avatar="🦊" &
+npx electron . --user-data-dir=/tmp/zerohop-alice --peer-name="Alice (MacBook)" --peer-avatar="🦊" &
 PID1=$!
 
 sleep 1
 
 echo "⚡ Spawning Instance 2: Bob (Workstation)..."
-npx electron . --user-data-dir=/tmp/instashare-bob --peer-name="Bob (Workstation)" --peer-avatar="🦅" &
+npx electron . --user-data-dir=/tmp/zerohop-bob --peer-name="Bob (Workstation)" --peer-avatar="🦅" &
 PID2=$!
 
 echo "✅ Both instances spawned successfully (PID: $PID1, $PID2)."

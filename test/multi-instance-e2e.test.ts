@@ -40,7 +40,7 @@ describe('Multi-Instance Automated End-to-End P2P Testing', () => {
     socketA.on('message', (msg) => {
       try {
         const payload = JSON.parse(msg.toString());
-        if (payload.type === 'INSTASHARE_ANNOUNCE' && payload.peer.id !== peerA.id) {
+        if (payload.type === 'ZEROHOP_ANNOUNCE' && payload.peer.id !== peerA.id) {
           discoveredPeersA.push(payload.peer);
         }
       } catch {}
@@ -61,7 +61,7 @@ describe('Multi-Instance Automated End-to-End P2P Testing', () => {
     socketB.on('message', (msg) => {
       try {
         const payload = JSON.parse(msg.toString());
-        if (payload.type === 'INSTASHARE_ANNOUNCE' && payload.peer.id !== peerB.id) {
+        if (payload.type === 'ZEROHOP_ANNOUNCE' && payload.peer.id !== peerB.id) {
           discoveredPeersB.push(payload.peer);
         }
       } catch {}
@@ -85,11 +85,11 @@ describe('Multi-Instance Automated End-to-End P2P Testing', () => {
 
   it('Step 1: Multi-Instance UDP Multicast Discovery Test', async () => {
     // Instance A announces presence
-    const payloadA = Buffer.from(JSON.stringify({ type: 'INSTASHARE_ANNOUNCE', peer: peerA }));
+    const payloadA = Buffer.from(JSON.stringify({ type: 'ZEROHOP_ANNOUNCE', peer: peerA }));
     socketA.send(payloadA, 0, payloadA.length, MULTICAST_PORT, MULTICAST_ADDR);
 
     // Instance B announces presence
-    const payloadB = Buffer.from(JSON.stringify({ type: 'INSTASHARE_ANNOUNCE', peer: peerB }));
+    const payloadB = Buffer.from(JSON.stringify({ type: 'ZEROHOP_ANNOUNCE', peer: peerB }));
     socketB.send(payloadB, 0, payloadB.length, MULTICAST_PORT, MULTICAST_ADDR);
 
     // Wait for network exchange
@@ -104,7 +104,7 @@ describe('Multi-Instance Automated End-to-End P2P Testing', () => {
     const server = http.createServer((req, res) => {
       if (req.url === '/') {
         res.writeHead(200, { 'Content-Type': 'text/html' });
-        res.end('<!DOCTYPE html><html><body><h1>InstaShare Web Bridge</h1></body></html>');
+        res.end('<!DOCTYPE html><html><body><h1>ZeroHop Web Bridge</h1></body></html>');
         return;
       }
       if (req.url === '/download/test-file') {
@@ -122,7 +122,7 @@ describe('Multi-Instance Automated End-to-End P2P Testing', () => {
     const rootRes = await fetch('http://127.0.0.1:8490/');
     expect(rootRes.ok).toBe(true);
     const html = await rootRes.text();
-    expect(html).toContain('InstaShare Web Bridge');
+    expect(html).toContain('ZeroHop Web Bridge');
 
     // Test GET /download/test-file
     const fileRes = await fetch('http://127.0.0.1:8490/download/test-file');

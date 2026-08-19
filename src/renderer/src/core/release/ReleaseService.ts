@@ -51,7 +51,7 @@ export class ReleaseService {
         releaseName: 'v2.0.0',
         releaseNotes: 'Offline development mode',
         publishedAt: new Date().toISOString(),
-        downloadUrl: 'https://github.com/gaurav10610/theinstashare-desktop/releases'
+        downloadUrl: 'https://github.com/gaurav10610/zerohop-desktop/releases'
       };
     }
     return window.api.checkUpdates();

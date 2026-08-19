@@ -16,7 +16,7 @@ const isDev = process.env.NODE_ENV === 'development' || !app.isPackaged;
 // Parse CLI flags for multi-instance testing
 const peerNameArg = process.argv.find((arg) => arg.startsWith('--peer-name='))?.split('=')[1];
 const peerAvatarArg = process.argv.find((arg) => arg.startsWith('--peer-avatar='))?.split('=')[1];
-const windowTitle = peerNameArg ? `InstaShare Next - ${peerNameArg}` : 'InstaShare Next';
+const windowTitle = peerNameArg ? `ZeroHop - ${peerNameArg}` : 'ZeroHop';
 
 function createWindow(): void {
   mainWindow = new BrowserWindow({
@@ -88,7 +88,7 @@ ipcMain.handle('dialog:open-directory', async () => {
 });
 
 app.whenReady().then(() => {
-  app.setAppUserModelId('com.theinstashare.desktop');
+  app.setAppUserModelId('com.zerohop.desktop');
 
   // Register all typed IPC modules
   registerStorageIPC();

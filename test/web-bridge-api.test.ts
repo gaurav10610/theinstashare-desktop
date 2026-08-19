@@ -36,7 +36,7 @@ describe('Zero-Install Web Bridge & Gateway API Exhaustive Suite', () => {
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>InstaShare Web Bridge</title>
+  <title>ZeroHop Web Bridge</title>
 </head>
 <body>
   <h1>Connected to ${hostName}</h1>
@@ -45,6 +45,6 @@ describe('Zero-Install Web Bridge & Gateway API Exhaustive Suite', () => {
 
     expect(html).toContain('meta name="viewport"');
     expect(html).toContain('Alice (MacBook)');
-    expect(html).toContain('InstaShare Web Bridge');
+    expect(html).toContain('ZeroHop Web Bridge');
   });
 });

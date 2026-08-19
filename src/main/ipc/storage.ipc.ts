@@ -5,7 +5,7 @@ import { app } from 'electron';
 
 const getStoragePath = () => {
   const userData = app.getPath('userData');
-  return path.join(userData, 'instashare_vault.enc');
+  return path.join(userData, 'zerohop_vault.enc');
 };
 
 export function registerStorageIPC(): void {

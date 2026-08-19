@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { usePeerStore } from '../../stores/usePeerStore';
 import { useSettingsStore } from '../../stores/useSettingsStore';
-import { M3Badge } from '../ui/M3Components';
-import { Minus, Square, X, QrCode, ShieldCheck, Wifi } from 'lucide-react';
+import { useThemeStore } from '../../stores/useThemeStore';
+import { M3Badge, M3IconButton } from '../ui/M3Components';
+import { Minus, Square, X, QrCode, ShieldCheck, Wifi, Sun, Moon, Laptop } from 'lucide-react';
 
 export function Header() {
   const { myName, myAvatar, peers } = usePeerStore();
   const { isWebBridgeActive } = useSettingsStore();
+  const { theme, effectiveTheme, setTheme } = useThemeStore();
   const [isMaximized, setIsMaximized] = useState(false);
   const activePeerCount = Object.keys(peers).length;
 
@@ -20,6 +22,12 @@ export function Header() {
     setIsMaximized(!isMaximized);
   };
   const handleClose = () => window.api?.closeWindow();
+
+  const cycleTheme = () => {
+    if (theme === 'dark') setTheme('light');
+    else if (theme === 'light') setTheme('system');
+    else setTheme('dark');
+  };
 
   return (
     <header
@@ -48,8 +56,24 @@ export function Header() {
         </div>
       </div>
 
-      {/* Right: Security & Window Controls */}
-      <div className="flex items-center gap-3" style={{ WebkitAppRegion: 'no-drag' } as any}>
+      {/* Right: Theme Switcher, Security & Window Controls */}
+      <div className="flex items-center gap-2.5" style={{ WebkitAppRegion: 'no-drag' } as any}>
+        {/* Quick Theme Switcher Button */}
+        <M3IconButton
+          size="sm"
+          variant="tonal"
+          onClick={cycleTheme}
+          title={`Theme: ${theme.toUpperCase()} (Click to toggle Dark / Light / System)`}
+        >
+          {theme === 'system' ? (
+            <Laptop className="w-3.5 h-3.5 text-indigo-400" />
+          ) : theme === 'light' ? (
+            <Sun className="w-3.5 h-3.5 text-amber-400" />
+          ) : (
+            <Moon className="w-3.5 h-3.5 text-indigo-300" />
+          )}
+        </M3IconButton>
+
         <div className="flex items-center gap-1.5 text-emerald-400 text-xs font-semibold px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
           <ShieldCheck className="w-3.5 h-3.5" />
           <span>E2EE Active</span>
